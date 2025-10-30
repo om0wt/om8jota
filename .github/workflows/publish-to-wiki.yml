@@ -1,4 +1,4 @@
-name: Publish to Wiki
+name: Publish to GitHub Pages
 
 on:
   push:
@@ -9,25 +9,43 @@ on:
   workflow_dispatch:  # Allow manual trigger
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  publish:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Upload to Wiki
-        uses: andrew-chen-wang/github-wiki-action@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: aktivity/hra-na-agenta/index.html
-          token: ${{ secrets.GITHUB_TOKEN }}
+          path: 'aktivity/hra-na-agenta'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
       - name: Summary
         run: |
-          echo "### 🎉 Wiki Publication Complete!" >> $GITHUB_STEP_SUMMARY
+          echo "### 🎉 Deployed to GitHub Pages!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "The application has been published to:" >> $GITHUB_STEP_SUMMARY
-          echo "📖 https://github.com/${{ github.repository }}/wiki" >> $GITHUB_STEP_SUMMARY
+          echo "**Application URL:**" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Direct link to app:**" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 ${{ steps.deployment.outputs.page_url }}index.html" >> $GITHUB_STEP_SUMMARY
