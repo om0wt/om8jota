@@ -8,6 +8,9 @@ on:
       - 'aktivity/hra-na-agenta/index.html'
   workflow_dispatch:  # Allow manual trigger
 
+permissions:
+  contents: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -15,26 +18,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Configure Git
+      - name: Prepare Wiki content
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          mkdir -p wiki-content
+          cp aktivity/hra-na-agenta/index.html wiki-content/Hra-na-agenta.html
 
-      - name: Clone Wiki repository
-        run: |
-          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki
-
-      - name: Copy HTML to Wiki
-        run: |
-          # Create or update the Hra-na-agenta.md page
-          cp aktivity/hra-na-agenta/index.html wiki/Hra-na-agenta.html
-
-          # Create a markdown wrapper page if it doesn't exist
-          if [ ! -f wiki/Hra-na-agenta.md ]; then
-            cat > wiki/Hra-na-agenta.md << 'EOF'
+          # Create markdown wrapper page
+          cat > wiki-content/Hra-na-agenta.md << 'EOF'
           # Hra na agenta - Generátor protokolov
 
           Pre použitie aplikácie otvorte HTML verziu:
@@ -68,25 +59,11 @@ jobs:
 
           _Automaticky publikované z [hlavného repozitára](../)_
           EOF
-          fi
 
-      - name: Commit and push to Wiki
-        working-directory: ./wiki
-        run: |
-          git add .
-
-          # Check if there are changes to commit
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "Update Hra na agenta application from aktivity/hra-na-agenta/index.html
-
-            Auto-published by GitHub Actions
-            Commit: ${{ github.sha }}
-            "
-            git push origin master
-            echo "✅ Successfully published to Wiki!"
-          fi
+      - name: Upload to Wiki
+        uses: SwiftDocOrg/github-wiki-publish-action@v1
+        with:
+          path: wiki-content
 
       - name: Summary
         run: |
