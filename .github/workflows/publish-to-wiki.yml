@@ -1,0 +1,99 @@
+name: Publish to Wiki
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'v2/index.html'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Clone Wiki repository
+        run: |
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki
+
+      - name: Copy HTML to Wiki
+        run: |
+          # Create or update the Hra-na-agenta.md page
+          cp v2/index.html wiki/Hra-na-agenta.html
+
+          # Create a markdown wrapper page if it doesn't exist
+          if [ ! -f wiki/Hra-na-agenta.md ]; then
+            cat > wiki/Hra-na-agenta.md << 'EOF'
+          # Hra na agenta - Generátor protokolov
+
+          Pre použitie aplikácie otvorte HTML verziu:
+
+          [**→ Otvoriť aplikáciu (HTML)**](Hra-na-agenta.html)
+
+          ## O aplikácii
+
+          Aplikácia "Hra na agenta" je generátor protokolov pre skautské družstvá. Zahŕňa:
+
+          - **Inštrukcie** - Pravidlá hry a príklady
+          - **Protokol stanice** - Generovanie protokolov s šifrovacími kolieskami
+          - **Vnútorné kotúče** - Generovanie koliesok na vystrihnutie
+          - **Protokol riadiacej stanice** - Hlavný kontrolný protokol s Albertiho šifrou
+
+          ## Použitie
+
+          1. Kliknite na odkaz vyššie pre otvorenie aplikácie
+          2. Vyberte si záložku podľa toho, čo potrebujete vygenerovať
+          3. Nastavte parametre (počet staníc, kľúč, frázu)
+          4. Kliknite na tlačidlo "Tlačiť" pre vytlačenie protokolov
+
+          ## Technické informácie
+
+          - Čistý HTML/CSS/JavaScript (žiadne závislosti)
+          - Funguje offline po načítaní
+          - Optimalizované pre tlač A4
+          - Podporuje Albertiho šifru s vlastnými kľúčmi
+
+          ---
+
+          _Automaticky publikované z [hlavného repozitára](../)_
+          EOF
+          fi
+
+      - name: Commit and push to Wiki
+        working-directory: ./wiki
+        run: |
+          git add .
+
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update Hra na agenta application from v2/index.html
+
+            Auto-published by GitHub Actions
+            Commit: ${{ github.sha }}
+            "
+            git push origin master
+            echo "✅ Successfully published to Wiki!"
+          fi
+
+      - name: Summary
+        run: |
+          echo "### 🎉 Wiki Publication Complete!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "The application has been published to:" >> $GITHUB_STEP_SUMMARY
+          echo "📖 https://github.com/${{ github.repository }}/wiki/Hra-na-agenta" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Direct HTML link:**" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 https://github.com/${{ github.repository }}/wiki/Hra-na-agenta.html" >> $GITHUB_STEP_SUMMARY

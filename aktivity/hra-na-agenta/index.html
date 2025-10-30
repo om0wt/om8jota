@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hra na agenta - Generátor protokolov</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(to right, #2563eb, #1d4ed8);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #334155;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            background: #f1f5f9;
+        }
+
+        .tab.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .subtabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            background: #f8fafc;
+            padding: 0.5rem;
+            border-radius: 6px;
+        }
+
+        .subtab {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #475569;
+            transition: all 0.2s;
+        }
+
+        .subtab:hover {
+            background: white;
+        }
+
+        .subtab.active {
+            background: white;
+            color: #2563eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .subtab-content {
+            display: none;
+        }
+
+        .subtab-content.active {
+            display: block;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .card h2 {
+            color: #2563eb;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+            font-size: 1.75rem;
+        }
+
+        .card h3 {
+            color: #2563eb;
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            max-width: 500px;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #94a3b8;
+            opacity: 1;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+            max-width: 600px;
+        }
+
+        small {
+            display: block;
+            margin-top: 0.5rem;
+            color: #64748b;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background: #1d4ed8;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        button:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        button.secondary {
+            background: #64748b;
+        }
+
+        button.secondary:hover {
+            background: #475569;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .protocol-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+
+        .protocol-table th,
+        .protocol-table td {
+            border: 2px solid black;
+            padding: 0.75rem;
+            text-align: center;
+        }
+
+        .protocol-table th {
+            background: white;
+            font-weight: bold;
+        }
+
+        .protocol-table .encrypted {
+            color: #dc2626;
+            font-family: monospace;
+        }
+
+        .protocol-table .control {
+            font-weight: bold;
+            font-family: monospace;
+        }
+
+        .phonetic-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .phonetic-item {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .phonetic-item strong {
+            min-width: 1.5rem;
+        }
+
+        .cipher-wheel-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .protocol-box {
+            border: 2px solid black;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .protocol-fields {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .protocol-field {
+            border: 2px solid black;
+            height: 40px;
+            border-radius: 4px;
+        }
+
+        .protocol-header {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .protocol-header-box {
+            border: 2px solid black;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+
+        .protocol-header-box label {
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .protocol-header-line {
+            border-bottom: 2px solid black;
+            height: 30px;
+            margin-top: 0.25rem;
+        }
+
+        .info-box {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .number-control {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .number-control input {
+            width: 80px;
+            text-align: center;
+            max-width: 80px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .number-control button {
+            padding: 0;
+            width: 44px;
+            height: 44px;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                margin: 0;
+                padding: 0;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            .subtabs {
+                display: none !important;
+            }
+
+            .header {
+                display: none;
+            }
+
+            .container {
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            .card {
+                box-shadow: none;
+                border: none;
+                page-break-inside: avoid;
+                padding: 0.5rem !important;
+                margin: 0 !important;
+            }
+
+            .page-break {
+                page-break-after: always;
+            }
+
+            @page {
+                margin: 6mm;
+                size: A4 portrait;
+            }
+
+            /* Station protocol specific */
+            .protocol-header {
+                gap: 0.5rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+
+            .protocol-header-box {
+                padding: 0.4rem !important;
+                min-height: 40px !important;
+            }
+
+            .protocol-header-box label {
+                font-size: 0.75rem !important;
+                margin-bottom: 0.25rem !important;
+            }
+
+            .protocol-header-line {
+                height: 20px !important;
+            }
+
+            .protocol-box {
+                padding: 0.5rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+
+            .protocol-fields {
+                gap: 0.3rem !important;
+                margin-top: 0.3rem !important;
+            }
+
+            .protocol-field {
+                height: 30px !important;
+            }
+
+            .info-box {
+                padding: 0.5rem !important;
+                margin: 0.5rem 0 !important;
+                font-size: 0.8rem !important;
+            }
+
+            .grid-2 {
+                gap: 0.5rem !important;
+                margin-top: 0.5rem !important;
+            }
+
+            .phonetic-grid {
+                gap: 0.2rem !important;
+                font-size: 0.7rem !important;
+            }
+
+            .cipher-wheel-container svg {
+                max-width: 280px !important;
+            }
+
+            #tab-station .grid-2 > div {
+                padding: 0.5rem !important;
+            }
+
+            #tab-station .grid-2 > div > div:first-child {
+                font-size: 0.8rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+
+            /* Control protocol specific */
+            .protocol-table {
+                font-size: 0.9rem;
+            }
+
+            .protocol-table th,
+            .protocol-table td {
+                padding: 0.5rem;
+            }
+
+            /* Inner wheels specific */
+            #inner-wheels .card {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+        }
+
+        @media print and (orientation: landscape) {
+            @page {
+                size: A4 landscape;
+                margin: 10mm;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header no-print">
+        <h1>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            Hra na agenta
+        </h1>
+        <p>Generátor protokolov pre skautské družstvá</p>
+    </div>
+
+    <div class="container">
+        <div class="tabs no-print">
+            <button class="tab active" onclick="switchTab('instructions', this)">Inštrukcie</button>
+            <button class="tab" onclick="switchTab('station', this)">Protokol stanice</button>
+            <button class="tab" onclick="switchTab('control', this)">Protokol riadiacej stanice</button>
+        </div>
+
+        <!-- Instructions Tab -->
+        <div id="tab-instructions" class="tab-content active">
+            <div class="card">
+                <h2>Hra na agenta</h2>
+                <p>Hra na agenta je hra pre 1-2 členné družstvá detí (skautov), tieto družstvá sú nazvané <strong>STANICE</strong>, alebo "agenti" (príklad: JOTA1, JOTA2...). STANICE prijímajú povely od <strong>RIADIACEJ STANICE</strong>, a na základe jej povelov jej naspäť komunikujú svoje zistenia. Na konci hry každá STANICA odovzdá RIADIACEJ STANICI <strong>PROTOKOL</strong> s výsledkami svojich zistení. RIADIACA STANICA vyhodnotí protokoly všetkých staníc a oznámy výsledok hry.</p>
+            </div>
+
+            <div class="card">
+                <h3>Pravidlá hry</h3>
+                <p><strong>Vybavenie:</strong> Hra sa hrá pomocou PMR446 vysielačiek, ktoré umožňujú komunikáciu medzi jednotlivými stanicami a riadiacou stanicou. PMR446 je voľne dostupné rádiové pásmo, ktoré nevyžaduje žiadne povolenie na prevádzku a je ideálne pre túto aktivitu.</p>
+                <p>Na začiatku hry riadiaca stanica oznámi všetkým družstvám šifrovací kľúč Albertiho šifry (dve písmená), pomocou ktorého budú ďalej dešifrovať slová podľa pokynov na protokole. Zmyslom celej hry je precvičiť u detí/skautov slovenskú hláskovaciu abecedu používanú v rádioamatérskom svete.</p>
+                <p>Jednotlivé stanice prijímajú od riadiacej stanice dve sady hláskovaných 5 slov, ktoré musia prepísať ako znaky podľa priloženej hláskovacej abecedy v protokole. Po dokončení budú mať v protokole v 2 riadkoch zapísané 2 slová. Následne musia dešifrovať znaky prvého slova podľa kľúča a zapísať si ho do príslušného riadku v protokole.</p>
+                <p>Po určitom čase vyzve riadiaca stanica všetky stanice aby oznámili či sú pripravené podať report ("JOTA1 volá ťa RIADIACA STANICA: Si pripravená?") - ak je stanica pripravená, musí riadiacej stanici vyhláskovať dešifrované slovo. Toto sa udeje pre všetky stanice v hre. Slová pre jednotlivé stanice sú volené tak, aby spolu dávali spolu zmysel. Jednotlivé stanice "agenti" tak majú spolu zložiť "kódovanú správu", ktorú sa dozvedia na konci hry.</p>
+            </div>
+
+            <div class="card" style="background: #fef3c7; border: 1px solid #fbbf24;">
+                <h3>Príklady správ</h3>
+                <div style="font-family: monospace; margin-top: 1rem;">
+                    <p>1. ČÁRNI BOČAN NOŽKI ZMOČÍ HLAVU VNORÍ ŽABKU CHYTÍ DOBRE CHUŤI</p>
+                    <p style="margin-top: 0.5rem;">2. DŽÍVA LABUŤ PLÁVA ZOBÁK VNÁRA RYBKU CHYTÁ</p>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Protokol stanice</h3>
+                    <p>Protokol stanice je formátu A4. V dolnej pravej časti je fixný kruh s malými písmenkami anglickej abecedy vo vonkajších poliach. Súčasťou protokolu je aj externý rotovací kľúčovací krúžok, ktorý sa vloží do vnútorného poľa fixného kruhu a nastaví sa podľa zdeleného kľúča. Písmená v tomto rotovateľnom kruhu sú veľké. Oba kruhy predstavujú šifrovanie Albertiho šifrou.</p>
+                </div>
+                <div class="card">
+                    <h3>Protokol riadiacej stanice</h3>
+                    <p>Protokol riadiacej stanice je tabuľka s párom slov pre každú stanicu a v kontrolnom riadku je dešifrované 1. slovo na základe kľúča Albertiho šifry. Tento protokol používa riadiaca stanica na prípravu hry a kontrolu výsledkov.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Station Protocol Tab -->
+        <div id="tab-station" class="tab-content">
+            <div class="subtabs no-print">
+                <button class="subtab active" onclick="switchSubtab('protocol', this)">Protokol Stanice</button>
+                <button class="subtab" onclick="switchSubtab('circles', this)">Vnútorné Kotúče</button>
+            </div>
+
+            <!-- Protocol Subtab -->
+            <div id="subtab-protocol" class="subtab-content active">
+                <div class="card no-print">
+                    <h2>Generátor Protokolu Stanice</h2>
+                    <p style="margin-bottom: 1.5rem; color: #64748b;">Názov stanice a šifrovací kľúč sa vypíšu ručne na vytlačený protokol počas hry.</p>
+                    <div class="form-group">
+                        <label>Počet kópií protokolu</label>
+                        <div class="number-control">
+                            <button onclick="changeProtocolCopies(-1)">-</button>
+                            <input type="number" id="protocolCopies" value="1" min="1" max="50" onchange="updateProtocolCopies()">
+                            <button onclick="changeProtocolCopies(1)">+</button>
+                        </div>
+                    </div>
+                    <button onclick="printProtocol()">🖨️ Tlačiť protokol</button>
+                </div>
+
+                <div id="station-protocols"></div>
+            </div>
+
+            <!-- Circles Subtab -->
+            <div id="subtab-circles" class="subtab-content">
+                <div class="card no-print">
+                    <h2>Generátor Vnútorných Kotúčov</h2>
+                    <p style="margin-bottom: 1.5rem; color: #64748b;">Vnútorné kotúče sa vytlačia, vystrihnú a vložia do protokolu stanice pre dešifrovanie.</p>
+
+                    <div class="form-group">
+                        <label>Veľkosť kotúča (px)</label>
+                        <div class="number-control">
+                            <button onclick="changeWheelSize(-10)">-</button>
+                            <input type="number" id="wheelSize" value="350" min="100" max="400" step="10" onchange="updateWheelSize()">
+                            <button onclick="changeWheelSize(10)">+</button>
+                        </div>
+                        <small id="wheelsPerPage"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Počet vnútorných kotúčov</label>
+                        <div class="number-control">
+                            <button onclick="changeCircleCount(-1)">-</button>
+                            <input type="number" id="circleCount" value="6" min="1" max="100" onchange="updateCircleCount()">
+                            <button onclick="changeCircleCount(1)">+</button>
+                        </div>
+                        <small id="totalPages"></small>
+                    </div>
+
+                    <button onclick="printCircles()">🖨️ Tlačiť kotúče</button>
+                </div>
+
+                <div id="inner-wheels"></div>
+            </div>
+        </div>
+
+        <!-- Control Protocol Tab -->
+        <div id="tab-control" class="tab-content">
+            <div class="card no-print">
+                <h2>Generátor Protokolu Riadiacej Stanice</h2>
+
+                <div class="form-group">
+                    <label>Počet staníc</label>
+                    <div class="number-control">
+                        <button onclick="changeNumStations(-1)">-</button>
+                        <input type="number" id="numStations" value="5" min="1" max="20" onchange="updateNumStations()">
+                        <button onclick="changeNumStations(1)">+</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="controlKey">Šifrovací kľúč (2 písmená)</label>
+                    <input type="text" id="controlKey" placeholder="Napríklad: xA" maxlength="2">
+                    <small>Prvé písmeno z vonkajšieho kruhu (malé), druhé z vnútorného (veľké).</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="resultPhrase">Výsledná fráza (slová oddelené medzerou)</label>
+                    <textarea id="resultPhrase" placeholder="Napríklad: ČÁRNI BOČAN NOŽKI ZMOČÍ HLAVU" style="text-transform: uppercase;"></textarea>
+                    <small>Toto sú slová, ktoré stanice dešifrujú. Vytvorte zmysluplnú frázu.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="controlWords">Kontrolné slová pre 2. riadok (voliteľné)</label>
+                    <textarea id="controlWords" placeholder="Napríklad: ADAM BORIS CYRIL (nechajte prázdne pre náhodné generovanie)" style="text-transform: uppercase;"></textarea>
+                    <small>Slová sa náhodne vygenerujú, ak nič nezadáte.</small>
+                </div>
+
+                <div class="button-group">
+                    <button onclick="generateControlProtocol()">✨ Generovať protokol</button>
+                    <button class="secondary" onclick="window.print()" id="printControlBtn" style="display: none;">🖨️ Tlačiť</button>
+                </div>
+            </div>
+
+            <div id="control-protocol-output"></div>
+        </div>
+    </div>
+
+    <script>
+        // Constants
+        const PHONETIC_ALPHABET = [
+            ['A', 'Adam'], ['B', 'Božena'], ['C', 'Cyril'], ['D', 'Dávid'],
+            ['E', 'Emil'], ['F', 'František'], ['G', 'Gustáv'], ['H', 'Helena'],
+            ['I', 'Ivan'], ['J', 'Jozef'], ['K', 'Karol'], ['L', 'Ladislav'],
+            ['M', 'Mária'], ['N', 'Norbert'], ['O', 'Oto'], ['P', 'Peter'],
+            ['Q', 'Quído'], ['R', 'Rudolf'], ['S', 'Svätopluk'], ['T', 'Tomáš'],
+            ['U', 'Urban'], ['V', 'Václav'], ['W', 'Dvojité W'], ['X', 'Xaver'],
+            ['Y', 'Ypsilon'], ['Z', 'Zuzana']
+        ];
+
+        const SLOVAK_NAMES = [
+            'ADAM', 'ALENA', 'BORIS', 'CYRIL', 'DAVID', 'ELENA', 'EMIL',
+            'FILIP', 'GUSTAV', 'HELENA', 'IVAN', 'JANA', 'KAROL', 'MARIA',
+            'MILAN', 'NINA', 'ONDREJ', 'PAULA', 'PETER', 'ROBERT', 'SOFIA',
+            'TOMAS', 'URBAN', 'VERA', 'ZUZANA', 'BOCAN', 'LABUT', 'ZABKA'
+        ];
+
+        const OUTER_FIXED = 'xftzdrseawqmlpnkobjivhucgy';
+        const INNER_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        // Tab switching
+        function switchTab(tabName, buttonElement) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById('tab-' + tabName).classList.add('active');
+            buttonElement.classList.add('active');
+
+            // Generate station protocols when switching to that tab
+            if (tabName === 'station') {
+                generateStationProtocols();
+            }
+        }
+
+        // Alberti cipher encryption
+        function encryptAlberti(plaintext, outerKey, innerKey) {
+            const outerPosition = OUTER_FIXED.indexOf(outerKey.toLowerCase());
+            const innerPosition = INNER_ALPHABET.indexOf(innerKey.toUpperCase());
+
+            if (outerPosition === -1 || innerPosition === -1) return 'INVALID';
+
+            const offset = outerPosition - innerPosition;
+            let result = '';
+
+            for (const char of plaintext.toUpperCase()) {
+                if (INNER_ALPHABET.includes(char)) {
+                    const charPos = INNER_ALPHABET.indexOf(char);
+                    const outerPos = (charPos + offset + 26) % 26;
+                    result += OUTER_FIXED[outerPos].toUpperCase();
+                } else {
+                    result += char;
+                }
+            }
+
+            return result;
+        }
+
+        // Generate random word
+        function generateRandomWord() {
+            return SLOVAK_NAMES[Math.floor(Math.random() * SLOVAK_NAMES.length)];
+        }
+
+        // Create outer cipher wheel SVG
+        function createOuterCipherWheel() {
+            const radius = 250;
+            const innerRadius = 210;
+            const centerX = 300;
+            const centerY = 300;
+            const textRadius = (radius + innerRadius) / 2;
+
+            let svg = '<svg viewBox="0 0 600 600" style="width: 100%; max-width: 400px; height: auto;">';
+            svg += `<circle cx="${centerX}" cy="${centerY}" r="${radius}" fill="none" stroke="black" stroke-width="4"/>`;
+
+            // Draw segments and letters
+            for (let i = 0; i < 26; i++) {
+                const startAngle = (i * 360 / 26 - 90) * Math.PI / 180;
+                const endAngle = ((i + 1) * 360 / 26 - 90) * Math.PI / 180;
+                const midAngle = ((i + 0.5) * 360 / 26 - 90) * Math.PI / 180;
+                const rotationAngle = (i + 0.5) * 360 / 26;
+
+                const x1 = centerX + radius * Math.cos(startAngle);
+                const y1 = centerY + radius * Math.sin(startAngle);
+                const x2 = centerX + radius * Math.cos(endAngle);
+                const y2 = centerY + radius * Math.sin(endAngle);
+                const ix1 = centerX + innerRadius * Math.cos(startAngle);
+                const iy1 = centerY + innerRadius * Math.sin(startAngle);
+                const ix2 = centerX + innerRadius * Math.cos(endAngle);
+                const iy2 = centerY + innerRadius * Math.sin(endAngle);
+
+                const pathData = `M ${x1} ${y1} A ${radius} ${radius} 0 0 1 ${x2} ${y2} L ${ix2} ${iy2} A ${innerRadius} ${innerRadius} 0 0 0 ${ix1} ${iy1} Z`;
+
+                svg += `<path d="${pathData}" fill="white" stroke="black" stroke-width="2"/>`;
+
+                const textX = centerX + textRadius * Math.cos(midAngle);
+                const textY = centerY + textRadius * Math.sin(midAngle);
+
+                svg += `<text x="${textX}" y="${textY}" text-anchor="middle" dominant-baseline="central" font-size="22" font-weight="bold" transform="rotate(${rotationAngle}, ${textX}, ${textY})">${OUTER_FIXED[i]}</text>`;
+            }
+
+            svg += `<circle cx="${centerX}" cy="${centerY}" r="${innerRadius}" fill="white" stroke="black" stroke-width="4"/>`;
+            svg += `<circle cx="${centerX}" cy="${centerY}" r="6" fill="black"/>`;
+            svg += '</svg>';
+
+            return svg;
+        }
+
+        // Generate phonetic alphabet HTML
+        function generatePhoneticAlphabetHTML() {
+            let html = '<div class="phonetic-grid">';
+            PHONETIC_ALPHABET.forEach(([letter, word]) => {
+                html += `<div class="phonetic-item"><strong>${letter}</strong><span>${word}</span></div>`;
+            });
+            html += '</div>';
+            return html;
+        }
+
+        // Station Protocol Generation
+        function generateStationProtocols() {
+            const copies = parseInt(document.getElementById('protocolCopies').value) || 1;
+            const container = document.getElementById('station-protocols');
+
+            let html = '';
+            for (let i = 0; i < copies; i++) {
+                const pageBreak = i < copies - 1 ? 'page-break' : '';
+                html += `
+                    <div class="card ${pageBreak}">
+                        <div class="protocol-header">
+                            <div class="protocol-header-box">
+                                <label>STANICA</label>
+                                <div class="protocol-header-line"></div>
+                            </div>
+                            <div class="protocol-header-box">
+                                <label>KĽÚČ</label>
+                                <div class="protocol-header-line"></div>
+                            </div>
+                        </div>
+
+                        <div class="protocol-box">
+                            <div style="background: white; border: 2px solid black; display: inline-block; padding: 0.25rem 0.5rem; font-weight: bold; font-size: 0.85rem; margin-bottom: 0.5rem;">1. SLOVO</div>
+                            <div class="protocol-fields">
+                                ${Array(5).fill('<div class="protocol-field"></div>').join('')}
+                            </div>
+                        </div>
+
+                        <div class="protocol-box">
+                            <div style="background: white; border: 2px solid black; display: inline-block; padding: 0.25rem 0.5rem; font-weight: bold; font-size: 0.85rem; margin-bottom: 0.5rem;">2. SLOVO</div>
+                            <div class="protocol-fields">
+                                ${Array(5).fill('<div class="protocol-field"></div>').join('')}
+                            </div>
+                        </div>
+
+                        <div class="protocol-box">
+                            <div style="background: white; border: 2px solid black; display: inline-block; padding: 0.25rem 0.5rem; font-weight: bold; font-size: 0.85rem; margin-bottom: 0.5rem;">DEKÓDUJ 1. RIADOK PODĽA KĽÚČA</div>
+                            <div class="protocol-fields">
+                                ${Array(5).fill('<div class="protocol-field"></div>').join('')}
+                            </div>
+                        </div>
+
+                        <div class="info-box">
+                            <p style="font-weight: bold; margin-bottom: 0.5rem;">ZAVOLAJ CENTRÁLNU STANICU JOTA A ODOVZDAJ DEKÓDOVANÉ SLOVO.</p>
+                            <p>SLOVO VYHLÁSKUJ POUŽITÍM HLÁSKOVACEJ ABECEDY</p>
+                        </div>
+
+                        <div class="grid-2">
+                            <div style="border: 1px solid black; padding: 1rem; border-radius: 4px;">
+                                <div style="font-weight: bold; text-align: center; margin-bottom: 1rem;">KĽÚČ - Kódové slová</div>
+                                ${generatePhoneticAlphabetHTML()}
+                            </div>
+                            <div class="cipher-wheel-container">
+                                ${createOuterCipherWheel()}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        // Control Protocol Generation
+        function generateControlProtocol() {
+            const numStations = parseInt(document.getElementById('numStations').value) || 5;
+            const key = document.getElementById('controlKey').value;
+            const resultPhrase = document.getElementById('resultPhrase').value.trim().toUpperCase();
+            const controlWords = document.getElementById('controlWords').value.trim().toUpperCase();
+
+            if (!key || key.length !== 2) {
+                alert('Zadajte platný 2-znakový kľúč!');
+                return;
+            }
+
+            if (!resultPhrase) {
+                alert('Zadajte výslednú frázu!');
+                return;
+            }
+
+            const outerKey = key[0];
+            const innerKey = key[1];
+
+            const resultWords = resultPhrase.split(/\s+/).filter(w => w.length > 0);
+            const actualNumStations = Math.min(numStations, resultWords.length);
+
+            const row1Words = resultWords.slice(0, actualNumStations).map(word =>
+                encryptAlberti(word, outerKey, innerKey)
+            );
+
+            let row2Words;
+            if (controlWords) {
+                row2Words = controlWords.split(/\s+/).filter(w => w.length > 0);
+                while (row2Words.length < actualNumStations) {
+                    row2Words.push(generateRandomWord());
+                }
+                row2Words = row2Words.slice(0, actualNumStations);
+            } else {
+                row2Words = Array.from({ length: actualNumStations }, () => generateRandomWord());
+            }
+
+            const stations = Array.from({ length: actualNumStations }, (_, i) => `JOTA${i + 1}`);
+            const controlRow = resultWords.slice(0, actualNumStations);
+
+            // Generate HTML
+            let html = `
+                <div class="card">
+                    <style>
+                        @media print {
+                            @page { size: A4 landscape; margin: 10mm; }
+                        }
+                    </style>
+                    <table class="protocol-table">
+                        <thead>
+                            <tr>
+                                <th>STANICA</th>
+                                ${stations.map(s => `<th>${s}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight: bold; background: white;">1. SLOVO</td>
+                                ${row1Words.map(w => `<td class="encrypted">${w}</td>`).join('')}
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; background: white;">2. SLOVO</td>
+                                ${row2Words.map(w => `<td style="font-family: monospace;">${w}</td>`).join('')}
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; background: white;">KONTROLA</td>
+                                ${controlRow.map(w => `<td class="control">${w}</td>`).join('')}
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="grid-2">
+                        <div style="border: 2px solid black; padding: 1rem; border-radius: 4px;">
+                            <div style="font-weight: bold; text-align: center; margin-bottom: 1rem;">KĽÚČ - Kódové slová</div>
+                            ${generatePhoneticAlphabetHTML()}
+                        </div>
+                        <div style="border: 2px solid black; padding: 2rem; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <div style="font-weight: bold; margin-bottom: 1rem;">KĽÚČ</div>
+                            <div style="font-size: 4rem; font-weight: bold;">${key}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('control-protocol-output').innerHTML = html;
+            document.getElementById('printControlBtn').style.display = 'inline-block';
+        }
+
+        // Number control functions
+        function changeProtocolCopies(delta) {
+            const input = document.getElementById('protocolCopies');
+            const newValue = Math.max(1, Math.min(50, parseInt(input.value) + delta));
+            input.value = newValue;
+            generateStationProtocols();
+        }
+
+        function updateProtocolCopies() {
+            const input = document.getElementById('protocolCopies');
+            input.value = Math.max(1, Math.min(50, parseInt(input.value) || 1));
+            generateStationProtocols();
+        }
+
+        function changeNumStations(delta) {
+            const input = document.getElementById('numStations');
+            const newValue = Math.max(1, Math.min(20, parseInt(input.value) + delta));
+            input.value = newValue;
+        }
+
+        function updateNumStations() {
+            const input = document.getElementById('numStations');
+            input.value = Math.max(1, Math.min(20, parseInt(input.value) || 1));
+        }
+
+        // Print function
+        function printProtocol() {
+            window.print();
+        }
+
+        // Subtab switching
+        function switchSubtab(subtabName, buttonElement) {
+            document.querySelectorAll('.subtab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.subtab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            document.getElementById('subtab-' + subtabName).classList.add('active');
+            buttonElement.classList.add('active');
+
+            if (subtabName === 'circles') {
+                generateInnerWheels();
+            }
+        }
+
+        // Create inner cipher wheel SVG
+        function createInnerCipherWheel() {
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const radius = 208;
+            const centerX = 300;
+            const centerY = 300;
+            const textRadius = radius * 0.85;
+
+            let svg = '<svg viewBox="0 0 600 600" style="width: 100%; height: auto;">';
+            svg += `<circle cx="${centerX}" cy="${centerY}" r="${radius}" fill="white" stroke="black" stroke-width="3"/>`;
+
+            // Draw segments and letters
+            for (let i = 0; i < 26; i++) {
+                const startAngle = (i * 360 / 26 - 90) * Math.PI / 180;
+                const x1 = centerX;
+                const y1 = centerY;
+                const x2 = centerX + radius * Math.cos(startAngle);
+                const y2 = centerY + radius * Math.sin(startAngle);
+
+                svg += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="black" stroke-width="2"/>`;
+
+                const midAngle = ((i + 0.5) * 360 / 26 - 90) * Math.PI / 180;
+                const rotationAngle = (i + 0.5) * 360 / 26;
+                const textX = centerX + textRadius * Math.cos(midAngle);
+                const textY = centerY + textRadius * Math.sin(midAngle);
+
+                svg += `<text x="${textX}" y="${textY}" text-anchor="middle" dominant-baseline="central" font-size="36" font-weight="bold" transform="rotate(${rotationAngle}, ${textX}, ${textY})">${alphabet[i]}</text>`;
+            }
+
+            svg += `<circle cx="${centerX}" cy="${centerY}" r="18" fill="white" stroke="black" stroke-width="3"/>`;
+            svg += `<circle cx="${centerX}" cy="${centerY}" r="6" fill="black"/>`;
+            svg += '</svg>';
+
+            return svg;
+        }
+
+        // Calculate circles per page
+        function calculateCirclesPerPage(size) {
+            // A4 page: 210mm x 297mm = ~794px x 1123px at 96 DPI
+            // Account for print margins (6mm = ~23px)
+            const pageWidth = 750;  // ~200mm usable width
+            const pageHeight = 1070; // ~285mm usable height
+            const cols = Math.floor(pageWidth / size);
+            const rows = Math.floor(pageHeight / size);
+            return Math.max(1, cols * rows);
+        }
+
+        // Generate inner wheels
+        function generateInnerWheels() {
+            const wheelSize = parseInt(document.getElementById('wheelSize').value) || 350;
+            const circleCount = parseInt(document.getElementById('circleCount').value) || 6;
+            const circlesPerPage = calculateCirclesPerPage(wheelSize);
+            const totalPages = Math.ceil(circleCount / circlesPerPage);
+
+            // Update info texts
+            document.getElementById('wheelsPerPage').textContent = `${circlesPerPage} kotúčov na stranu`;
+            document.getElementById('totalPages').textContent = `${totalPages} ${totalPages === 1 ? 'strana' : totalPages < 5 ? 'strany' : 'strán'}`;
+
+            const container = document.getElementById('inner-wheels');
+            const cols = Math.max(1, Math.floor(750 / wheelSize));
+            const overlap = 50; // Overlap amount in pixels
+
+            let html = '';
+            for (let pageIndex = 0; pageIndex < totalPages; pageIndex++) {
+                const circlesOnPage = Math.min(circlesPerPage, circleCount - pageIndex * circlesPerPage);
+                const pageBreak = pageIndex < totalPages - 1 ? 'page-break' : '';
+
+                html += `<div class="card ${pageBreak}" style="padding: 0; margin: 0;">`;
+                html += `<div style="display: grid; grid-template-columns: repeat(${cols}, ${wheelSize}px); gap: 0; justify-content: center; align-items: start;">`;
+
+                for (let i = 0; i < circlesOnPage; i++) {
+                    const row = Math.floor(i / cols);
+                    const col = i % cols;
+                    const marginLeft = col > 0 ? -overlap : 0;
+                    const marginTop = row > 0 ? -overlap : 0;
+
+                    html += `<div style="width: ${wheelSize}px; height: ${wheelSize}px; line-height: 0; margin-left: ${marginLeft}px; margin-top: ${marginTop}px;">${createInnerCipherWheel()}</div>`;
+                }
+
+                html += '</div></div>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        // Wheel size controls
+        function changeWheelSize(delta) {
+            const input = document.getElementById('wheelSize');
+            const newValue = Math.max(100, Math.min(400, parseInt(input.value) + delta));
+            input.value = newValue;
+            generateInnerWheels();
+        }
+
+        function updateWheelSize() {
+            const input = document.getElementById('wheelSize');
+            input.value = Math.max(100, Math.min(400, parseInt(input.value) || 350));
+            generateInnerWheels();
+        }
+
+        // Circle count controls
+        function changeCircleCount(delta) {
+            const input = document.getElementById('circleCount');
+            const newValue = Math.max(1, Math.min(100, parseInt(input.value) + delta));
+            input.value = newValue;
+            generateInnerWheels();
+        }
+
+        function updateCircleCount() {
+            const input = document.getElementById('circleCount');
+            input.value = Math.max(1, Math.min(100, parseInt(input.value) || 6));
+            generateInnerWheels();
+        }
+
+        // Print circles
+        function printCircles() {
+            window.print();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            generateStationProtocols();
+            generateInnerWheels();
+
+            // Auto-uppercase inputs
+            document.getElementById('resultPhrase').addEventListener('input', (e) => {
+                e.target.value = e.target.value.toUpperCase();
+            });
+            document.getElementById('controlWords').addEventListener('input', (e) => {
+                e.target.value = e.target.value.toUpperCase();
+            });
+        });
+    </script>
+</body>
+</html>
