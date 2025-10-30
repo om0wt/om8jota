@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'v2/index.html'
+      - 'aktivity/hra-na-agenta/index.html'
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
@@ -79,7 +79,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Update Hra na agenta application from v2/index.html
+            git commit -m "Update Hra na agenta application from aktivity/hra-na-agenta/index.html
 
             Auto-published by GitHub Actions
             Commit: ${{ github.sha }}
