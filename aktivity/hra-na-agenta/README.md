@@ -1,99 +1,91 @@
-# Hra na agenta - Single HTML Version
+# Hra na agenta
 
-This is a simplified, single-file version of the "Hra na agenta" application that can be hosted on GitHub Wiki or any static web hosting.
+Hrá na agenta je hrá pre 1-2 členné družstvá detí (skautov), tieto družstva sú nazvané **STANICE**, alebo "agenti" (volacie znaky: JOTA1, JOTA2...). STANICE prijímajú povely od **RIADIACEJ STANICE** (volací znak JOTA), a na základe jej povelov jej naspäť komunikujú svoje zistenia. Na konci hry každá STANICA odovzdá RIADIACEJ STANICI **PROTOKOL** s výsledkami svojich zistení. RIADIACA STANICA vyhodnoti protokoly všetkých staníc a oznámi výsledok hry. Jednotlivé stanice "agenti" tak majú spolu zložiť "kodovanu správu", ktorú zachráni svet a jej znenie sa dozvedia na konci hry.
 
-## What's included
+Zmyslom celej hry je precvicit u deti/skautov slovenskú hláskovaciu abecedu používanú v radioamaterskom svete a naučiť ich komunikácii podľa všeobecnej schémy pre fonické radioamaterske spojenia.
 
-- **index.html** - Complete standalone application with all functionality:
-  - Game instructions
-  - Station protocol generator with cipher wheels
-  - Control station protocol generator
-  - Alberti cipher encryption
-  - Print functionality
-  - All styling and JavaScript inline
+## Priebeh hry
 
-## Features
+1. Na začiatku hry skauti vytvoria 1-2 clenne družstva. Každé družstvo dostane PMR446 vysielačku. Všetky vysielačky sú nastavené na rovnaký kanál. RIADIACA STANICA odovzdá každému družstvu tvrdú papierovú dosku s perom a PROTOKOLOM STANICE a oznámi všetkým druzstvam sifrovaci kľúč - dve písmena, pomocou ktorého budú ďalej desifrovat slova podľa pokynov na protokole.  
 
-✅ No build process required
-✅ No dependencies
-✅ Works offline
-✅ Can be hosted on GitHub Wiki
-✅ Print-optimized protocols
-✅ Fully responsive design
-✅ Generates station protocols with cipher wheels
-✅ Generates inner cipher wheels for cutting and assembly
-✅ Alberti cipher encryption with customizable keys
-✅ Control station protocol generator with automatic word generation
+2. Jednotlivé družstvá sa rozídu do priestoru (napríklad na luke), tak aby sa navzájom nepočuli.
 
-## How to use
+3. Riadiaca stanica spraví kontrolu spojenia s jednotlivými stanicami (x je poradové číslo stanice) podľa nasledujúcej schémy:
 
-### Option 1: Open locally
-Simply double-click `index.html` to open it in your web browser.
+    ```
+    JOTAx volá ťa JOTA
+    JOTA tu JOTAx Na prijme
+    JOTAx JOTA Ďakujem
+    ```
+4. Riadiaca stanica postupne nadväzuje spojenia s jednotlivými stanicami a odovzdáva im slova, medzi jednotlivými slovám počká chvíľu:
 
-### Option 2: Host on GitHub Wiki
+    ```
+    JOTAx volá ťa JOTA
+    JOTA JOTAx Počúvam
+    JOTx JOTA Prvé slovo: Tomas Xaver Bozena Peter Adam, opakujem: Tomas Xaver Bozena Peter Adam. Máš zapísané?
+    JOTA JOTAx Áno, mám všetko zapísané, môžeš pokračovať druhým slovom
+    JOTAx JOTA Druhé slovo: Jozef Adam Norbert Karol Oto, opakujem: Jozef Adam Norbert Karol Oto. Máš zapísané?
+    JOTA JOTAx Všetko prijaté, môžeš pokračovať na ďalšiu stanicu.
+    ```
 
-1. Go to your GitHub repository's Wiki
-2. Create a new page
-3. Click "Edit" and switch to the "HTML" editor mode
-4. Copy and paste the entire contents of `index.html`
-5. Save the page
+    Stanica JOTAx poskladá na základe hláskovacej abecedy z vyhláskovaných písmen slovo 1 a slovo 2 a zápise ho do protokolu. Potom začne spracovávať slová podľa pokynov v protokole - desifruje slovo 2 podľa kľúča. Riadiaca stanica pokračuje spojením s ďalšou JOTAx stanicou
 
-### Option 3: Host on GitHub Pages
+5. Riadiaca stanica nechá čas všetkým staniciam čas na spracovanie úlohy (cca 10 minút od komunikácie s poslednou stanicou) a následne zavolá všeobecnú výzvu, na ktorú budú stanice JOTAx odpovedať statusom o pripravenosti:
 
-1. Copy `index.html` to your repository
-2. Enable GitHub Pages in repository settings
-3. Set the source to the branch containing the file
-4. Access via `https://yourusername.github.io/repository-name/v2/index.html`
+    ```
+    Výzva pre všetky stanice, tu JOTA: JOTA1 až JOTAn, oznámte svoju pripravenost odpovedať na úlohy!
+    ```
+    
+    Jednotlivé stanice odpovedajú:
 
-### Option 4: Any web server
+    ```
+    JOTA JOTAx: Pripravená/Potrebujeme ešte čas
+    ```
+    
+    V prípade, že niektoré stanice nebudú ešte pripravené, riadiaca stanica im nechá čas a neskôr zopakuje výzvu znova. Keď sú všetky JOTAx stanice pripravené, začne fáza odovzdavania riešení úloh
 
-Upload `index.html` to any web hosting service. The file is completely self-contained.
+6. Riadiaca stanica postupne volá všetky stanice a žiada o vyhláskovanie dešifrovaného 1. slova. Výsledok skontroluje podľa protokolu riadiacej stanice, v riadku KONTROLA a označí zakrúžkovaním stanicu ak správne desifrovala slovo 2.
 
-## Usage
+    ```
+    JOTAx volá ťa JOTA Vyhlaskuj desifrovane 1. slovo
+    JOTA JOTAx Slovo je: Cyril Adam Rudolf Norbert Ivan
+    JOTAx JOTA Ďakujem, Sedem Tri.
+    ```
 
-1. **Inštrukcie** tab - Read the game instructions
 
-2. **Protokol stanice** tab - Generate station protocols for printing
-   - **Protokol Stanice** subtab:
-     - Set the number of copies
-     - Click "Tlačiť protokol" to print
-   - **Vnútorné Kotúče** subtab:
-     - Set wheel size (affects how many fit per page)
-     - Set number of inner wheels to generate
-     - Click "Tlačiť kotúče" to print
-     - Cut out the wheels and place them in the station protocols
+## Ukončenie hry
 
-3. **Protokol riadiacej stanice** tab - Generate control station protocol
-   - Set number of stations
-   - Enter encryption key (2 letters, e.g., "xA")
-   - Enter result phrase (words separated by spaces)
-   - Optionally enter control words for row 2
-   - Click "Generovať protokol" to generate
-   - Click "Tlačiť" to print
+Po odovzdaní všetkých dekodovaných slov stanicami sa všetky družstvá zídu pri Riadiacej stanici, ktorá vyhodnotí protokoly jednotlivých staníc a prejdú si spolu jednotlivé problemove momenty, s ktorými stanice mohli máť ťažkosti.
 
-## Technical details
+Nakoniec Riadiaca stanica oznámi všetkým staniciam spoločne dešifrovanú správu, ktorá pomohla zachrániť svet a rozdá družstvám prípadne odmeny.
 
-- Pure HTML5, CSS3, and vanilla JavaScript
-- No external dependencies
-- File size: ~41KB (1112 lines)
-- Compatible with all modern browsers
-- Print-optimized with separate portrait/landscape modes
-- SVG-based cipher wheel generation
-- Dynamic page layout calculation for optimal printing
+## Priklady sprav:
 
-## Differences from original React version
-
-- Single file instead of modular components
-- No build step required
-- All core functionality maintained including inner cipher wheels
-- Simplified styling (no Tailwind CSS or shadcn/ui, but with similar visual design)
-- Vanilla JavaScript instead of React hooks and state management
-
-## Converting back to the original
-
-To use the full React version with hot reload and component-based architecture, use the original source files in the parent directory and run:
-
-```bash
-npm install
-npm run dev
 ```
+1. CARNI	BOCAN	NOZKI	ZMOCI	HLAVU	VNORI	ZABKU	CHICI	DOBRE	CHUTI
+2. DZIVA    LABUT   PLAVA   ZOBAK   VNARA   RYBKU   CHYTA
+```
+
+## Protokol stanice
+
+Protokol stanice je formátu A4. V dolnej pravej časti je fixny kruh s malými pismenkami anglickej abecedy vo vonkajších poliach. Súčasťou protokolu je aj externý rotovaci klucovaci krúžok, ktorý sa vloží do vnútorného poľa fixneho kruhu a nastavi sa podľa zdeleneho kľúča. Písmena v tomto rotovacom kruhu sú veľké, oba kruhy predstavujú šifrovanie Albertiho šifrou. Okrem tohto protokol obsahuje polia pre jednotlivé slová popísané vyššie vo vysvetlení hry. 
+
+Priklad protokolu stanice:
+
+![Protokol stanice](./PROTOKOL_STANICA.png)
+
+Tu je príklad protokolu aj s vnútorným dešifrovacím kolieskom nastaveným na kľúč **xA**
+
+![Protokol s kolieskom](./PROTOKO_S_KOLIESKOM.png)
+
+## Protokol riadiacej stanice.
+
+Protokol riadiacej stanice obsahuje páry slov pre každú stanicu a v kontrolnom riadku je dešifrované 1. slovo na základe kľúča
+
+Príklad protokolu riadiacej stanice:
+
+![Protokol riadiacej stanice](./PROTOKOL_RIADIACEJ_STANICE.png)
+
+
+
+

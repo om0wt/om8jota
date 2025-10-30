@@ -43,7 +43,7 @@ Jednoducho dvakrát kliknite na `index.html` a otvorí sa vo vašom webovom preh
 1. Skopírujte `index.html` do svojho repozitára
 2. Povoľte GitHub Pages v nastaveniach repozitára
 3. Nastavte zdroj na vetvu obsahujúcu súbor
-4. Prístup cez `https://vasemeno.github.io/nazov-repozitara/v2/index.html`
+4. Prístup cez `https://om0wt.github.io/om8jota/index.html`
 
 ### Možnosť 4: Akýkoľvek webový server
 
@@ -80,12 +80,4 @@ Nahrajte `index.html` na akúkoľvek webhostingovú službu. Súbor je úplne sa
 - Optimalizované pre tlač so samostatnými režimami na výšku/na šírku
 - Generovanie šifrovacích koliesok založené na SVG
 - Dynamický výpočet rozloženia stránky pre optimálnu tlač
-
-## Rozdiely oproti pôvodnej React verzii
-
-- Jeden súbor namiesto modulárnych komponentov
-- Nie je potrebný proces zostavovania
-- Všetky základné funkcie sú zachované vrátane vnútorných šifrovacích koliesok
-- Zjednodušený štýl (žiadne Tailwind CSS alebo shadcn/ui, ale s podobným vizuálnym dizajnom)
-- Vanilla JavaScript namiesto React hooks a správy stavu
 

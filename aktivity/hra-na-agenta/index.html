@@ -530,15 +530,68 @@
         <div id="tab-instructions" class="tab-content active">
             <div class="card">
                 <h2>Hra na agenta</h2>
-                <p>Hra na agenta je hra pre 1-2 členné družstvá detí (skautov), tieto družstvá sú nazvané <strong>STANICE</strong>, alebo "agenti" (príklad: JOTA1, JOTA2...). STANICE prijímajú povely od <strong>RIADIACEJ STANICE</strong>, a na základe jej povelov jej naspäť komunikujú svoje zistenia. Na konci hry každá STANICA odovzdá RIADIACEJ STANICI <strong>PROTOKOL</strong> s výsledkami svojich zistení. RIADIACA STANICA vyhodnotí protokoly všetkých staníc a oznámy výsledok hry.</p>
+                <p>Hra na agenta je hrá pre 1-2 členné družstvá detí (skautov), tieto družstva sú nazvané <strong>STANICE</strong>, alebo "agenti" (volacie znaky: JOTA1, JOTA2...). <strong>STANICE</strong> prijímajú povely od <strong>RIADIACEJ STANICE</strong> (volací znak JOTA), a na základe jej povelov jej naspäť komunikujú svoje zistenia. Na konci hry každá STANICA odovzdá <strong>RIADIACEJ STANICI PROTOKOL</strong> s výsledkami svojich zistení.<strong>RIADIACA STANICA</strong> vyhodnoti protokoly všetkých staníc a oznámi výsledok hry. Jednotlivé stanice "agenti" tak majú spolu zložiť "kódovanu správu", ktorá zachráni svet a jej znenie sa dozvedia na konci hry.</p>
             </div>
 
             <div class="card">
-                <h3>Pravidlá hry</h3>
-                <p><strong>Vybavenie:</strong> Hra sa hrá pomocou PMR446 vysielačiek, ktoré umožňujú komunikáciu medzi jednotlivými stanicami a riadiacou stanicou. PMR446 je voľne dostupné rádiové pásmo, ktoré nevyžaduje žiadne povolenie na prevádzku a je ideálne pre túto aktivitu.</p><br/>
-                <p>Na začiatku hry riadiaca stanica oznámi všetkým družstvám šifrovací kľúč (dve písmená), pomocou ktorého budú ďalej dešifrovať slová podľa pokynov na protokole. Zmyslom celej hry je precvičiť u detí/skautov slovenskú hláskovaciu abecedu používanú v rádioamatérskom svete.</p><br/>
-                <p>Jednotlivé stanice prijímajú od riadiacej stanice dve sady hláskovaných 5 slov, ktoré musia prepísať ako znaky podľa priloženej hláskovacej abecedy v protokole. Po dokončení budú mať v protokole v 2 riadkoch zapísané 2 slová. Následne musia dešifrovať znaky prvého slova podľa kľúča a zapísať si ho do príslušného riadku v protokole.</p><br/>
-                <p>Po určitom čase vyzve riadiaca stanica všetky stanice aby oznámili či sú pripravené podať report <i><strong>("JOTA1 volá ťa RIADIACA STANICA: Si pripravená?")</strong></i> - ak je stanica pripravená, musí riadiacej stanici vyhláskovať dešifrované slovo. Toto sa udeje pre všetky stanice v hre. Slová pre jednotlivé stanice sú volené tak, aby spolu dávali spolu zmysel. Jednotlivé stanice "agenti" tak majú spolu zložiť "kódovanú správu", ktorú sa dozvedia na konci hry.</p>
+                <h3>Cieľ hry</h3>
+                <p>Cieľom celej hry je precvičiť u detí/skautov slovenskú (prípadne medzinárodnú) hláskovaciu abecedu používanú v rádioamatérskom svete a naučiť ich komunikácii podľa všeobecnej schémy pre fonické rádioamatérske spojenia.</p>
+                <p>Jednotlivé stanice "agenti" tak majú spolu zložiť "kódovanú správu", ktorá zachráni svet a jej znenie sa dozvedia na konci hry.</p>
+            </div>
+
+            <div class="card">
+                <h3>Priebeh hry</h3>
+
+                <h4 style="margin-top: 1.5rem;">1. Príprava</h4>
+                <p>Na začiatku hry skauti vytvoria 1-2 členné družstvá. Každé družstvo dostane PMR446 vysielačku. Všetky vysielačky sú nastavené na rovnaký kanál. RIADIACA STANICE (volací znak JOTA) odovzdá každému družstvu tvrdú papierovú dosku s perom a PROTOKOLOM STANICE a oznámi všetkým družstvám šifrovací kľúč - dve písmená, pomocou ktorého budú ďalej dešifrovať slová podľa pokynov na protokole.</p>
+
+                <h4 style="margin-top: 2rem;">2. Rozmiestnenie</h4>
+                <p>Jednotlivé družstvá sa rozídu do priestoru (napríklad na lúke), tak aby sa navzájom nepočuli.</p>
+
+                <h4 style="margin-top: 2rem;">3. Kontrola spojenia</h4>
+                <p>Riadiaca stanica spraví kontrolu spojenia s jednotlivými stanicami (x je poradové číslo stanice) podľa nasledujúcej schémy:</p>
+                <div style="background: #f8fafc; padding: 1rem; border-left: 4px solid #2563eb; margin: 1rem 0; font-family: monospace; font-size: 0.9rem;">
+                    <p style="margin: 0.25rem 0;">JOTAx volá ťa JOTA</p>
+                    <p style="margin: 0.25rem 0;">JOTA tu JOTAx Na príjme</p>
+                    <p style="margin: 0.25rem 0;"> JOTAx JOTA Ďakujem</p>
+                </div>
+
+                <h4 style="margin-top: 2rem;">4. Odovzdávanie slov</h4>
+                <p>Riadiaca stanica postupne nadväzuje spojenia s jednotlivými stanicami a odovzdáva im slová, medzi jednotlivými slovami počká chvíľu:</p>
+                <div style="background: #f8fafc; padding: 1rem; border-left: 4px solid #2563eb; margin: 1rem 0; font-family: monospace; font-size: 0.9rem;">
+                    <p style="margin: 0.25rem 0;">JOTAx volá ťa JOTA</p>
+                    <p style="margin: 0.25rem 0;">JOTA JOTAx Počúvam</p>
+                    <p style="margin: 0.25rem 0;">JOTAx JOTA Prvé slovo: Tomáš Xaver Božena Peter Adam, opakujem: Tomáš Xaver Božena Peter Adam. Máš zapísané?</p>
+                    <p style="margin: 0.25rem 0;">JOTA JOTAx Áno, mám všetko zapísané, môžeš pokračovať druhým slovom</p>
+                    <p style="margin: 0.25rem 0;">JOTAx JOTA Druhé slovo: Jozef Adam Norbert Karol Oto, opakujem: Jozef Adam Norbert Karol Oto. Máš zapísané?</p>
+                    <p style="margin: 0.25rem 0;">JOTA JOTAx Všetko prijaté, môžeš pokračovať na ďalšiu stanicu.</p>
+                </div>
+                <p>Stanica JOTAx poskladá na základe hláskovacej abecedy z vyhláskovaných písmen slovo 1 a slovo 2 a zapíše ho do protokolu. Potom začne spracovávať slová podľa pokynov v protokole - dešifruje slovo 2 podľa kľúča. Riadiaca stanica pokračuje spojením s ďalšou JOTAx stanicou.</p>
+
+                <h4 style="margin-top: 2rem;">5. Kontrola pripravenosti</h4>
+                <p>Riadiaca stanica nechá všetkým staniciam čas na spracovanie úlohy (cca 10 minút od komunikácie s poslednou stanicou) a následne zavolá všeobecnú výzvu, na ktorú budú stanice JOTAx odpovedať statusom o pripravenosti:</p>
+                <div style="background: #f8fafc; padding: 1rem; border-left: 4px solid #2563eb; margin: 1rem 0; font-family: monospace; font-size: 0.9rem;">
+                    <p style="margin: 0.25rem 0;">Výzva pre všetky stanice, tu JOTA: JOTA1 až JOTAn, oznámte svoju pripravenosť odpovedať na úlohy!</p>
+                </div>
+                <p>Jednotlivé stanice odpovedajú:</p>
+                <div style="background: #f8fafc; padding: 1rem; border-left: 4px solid #2563eb; margin: 1rem 0; font-family: monospace; font-size: 0.9rem;">
+                    <p style="margin: 0.25rem 0;">JOTA JOTAx: Pripravená / Potrebujeme ešte čas</p>
+                </div>
+                <p>V prípade, že niektoré stanice nebudú ešte pripravené, riadiaca stanica im nechá čas a neskôr zopakuje výzvu znova. Keď sú všetky JOTAx stanice pripravené, začne fáza odovzdávania riešení úloh.</p>
+
+                <h4 style="margin-top: 2rem;">6. Odovzdávanie riešení</h4>
+                <p>Riadiaca stanica postupne volá všetky stanice a žiada o vyhláskovanie dešifrovaného 1. slova. Výsledok skontroluje podľa protokolu riadiacej stanice, v riadku KONTROLA a označí zakrúžkovaním stanicu ak správne dešifrovala slovo 2.</p>
+                <div style="background: #f8fafc; padding: 1rem; border-left: 4px solid #2563eb; margin: 1rem 0; font-family: monospace; font-size: 0.9rem;">
+                    <p style="margin: 0.25rem 0;">JOTAx volá ťa JOTA Vyhlaskuj dešifrované 1. slovo</p>
+                    <p style="margin: 0.25rem 0;">JOTA JOTAx Slovo je: Cyril Adam Rudolf Norbert Ivan</p>
+                    <p style="margin: 0.25rem 0;">JOTAx JOTA Ďakujem, Sedem Tri.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Ukončenie hry</h3>
+                <p>Po odovzdaní všetkých dekódovaných slov stanicami sa všetky družstvá zídu pri Riadiacej stanici, ktorá vyhodnotí protokoly jednotlivých staníc a prejdú si spolu jednotlivé problemové momenty, s ktorými stanice mohli mať ťažkosti.</p>
+                <p>Nakoniec Riadiaca stanica oznámi všetkým staniciam spoločne dešifrovanú správu, ktorá pomohla zachrániť svet a rozdá družstvám prípadne odmeny.</p>
             </div>
 
             <div class="card" style="background: #fef3c7; border: 1px solid #fbbf24;">
