@@ -35,6 +35,42 @@
             gap: 1rem;
         }
 
+        .language-selector {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .language-selector button {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: 2px solid transparent;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 6px;
+        }
+
+        .language-selector button:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: none;
+            box-shadow: none;
+        }
+
+        .language-selector button.active {
+            background: white;
+            color: #2563eb;
+            border-color: white;
+        }
+
         .container {
             max-width: 1200px;
             margin: 2rem auto;
@@ -510,92 +546,97 @@
 </head>
 <body>
     <div class="header no-print">
+        <div class="language-selector">
+            <button onclick="switchLanguage('sk')" class="active" id="lang-sk">SK</button>
+            <button onclick="switchLanguage('en')" id="lang-en">EN</button>
+            <button onclick="switchLanguage('pt_BR')" id="lang-pt">PT</button>
+        </div>
         <h1>
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
             </svg>
-            Hra na agenta
+            <span data-i18n="title">Hra na agenta</span>
         </h1>
-        <p>Generátor protokolov pre skautské družstvá</p>
+        <p data-i18n="subtitle">Generátor protokolov pre skautské družstvá</p>
     </div>
 
     <div class="container">
         <div class="tabs no-print">
-            <button class="tab active" onclick="switchTab('instructions', this)">Inštrukcie</button>
-            <button class="tab" onclick="switchTab('station', this)">Protokol stanice</button>
-            <button class="tab" onclick="switchTab('control', this)">Protokol riadiacej stanice</button>
+            <button class="tab active" onclick="switchTab('instructions', this)" data-i18n="tabInstructions">Inštrukcie</button>
+            <button class="tab" onclick="switchTab('station', this)" data-i18n="tabStation">Protokol stanice</button>
+            <button class="tab" onclick="switchTab('control', this)" data-i18n="tabControl">Protokol riadiacej stanice</button>
         </div>
 
         <!-- Instructions Tab -->
         <div id="tab-instructions" class="tab-content active">
             <div class="card">
-                <h2>Hra na agenta</h2>
-                <p>Hra na agenta je hrá pre 1-2 členné družstvá detí (skautov), tieto družstva sú nazvané <strong>STANICE</strong>, alebo "agenti" (volacie znaky: JOTA1, JOTA2...). <strong>STANICE</strong> prijímajú povely od <strong>RIADIACEJ STANICE</strong> (volací znak JOTA), a na základe jej povelov jej naspäť komunikujú svoje zistenia. Na konci hry každá STANICA odovzdá <strong>RIADIACEJ STANICI PROTOKOL</strong> s výsledkami svojich zistení.<strong>RIADIACA STANICA</strong> vyhodnoti protokoly všetkých staníc a oznámi výsledok hry. Jednotlivé stanice "agenti" tak majú spolu zložiť "kódovanu správu", ktorá zachráni svet a jej znenie sa dozvedia na konci hry.</p>
+                <h2 data-i18n="gameTitle">Hra na agenta</h2>
+                <p data-i18n="gameIntro">Hra na agenta je hrá pre 1-2 členné družstvá detí (skautov), tieto družstva sú nazvané <strong>STANICE</strong>, alebo "agenti" (volacie znaky: JOTA1, JOTA2...). <strong>STANICE</strong> prijímajú povely od <strong>RIADIACEJ STANICE</strong> (volací znak JOTA), a na základe jej povelov jej naspäť komunikujú svoje zistenia. Na konci hry každá STANICA odovzdá <strong>RIADIACEJ STANICI PROTOKOL</strong> s výsledkami svojich zistení.<strong>RIADIACA STANICA</strong> vyhodnoti protokoly všetkých staníc a oznámi výsledok hry. Jednotlivé stanice "agenti" tak majú spolu zložiť "kódovanu správu", ktorá zachráni svet a jej znenie sa dozvedia na konci hry.</p>
             </div>
 
             <div class="card">
-                <h3>Cieľ hry</h3>
-                <p>Cieľom celej hry je precvičiť u detí/skautov slovenskú (prípadne medzinárodnú) hláskovaciu abecedu používanú v rádioamatérskom svete a naučiť ich komunikácii podľa všeobecnej schémy pre fonické rádioamatérske spojenia.</p>
-                <p>Jednotlivé stanice "agenti" tak majú spolu zložiť "kódovanú správu", ktorá zachráni svet a jej znenie sa dozvedia na konci hry.</p>
+                <h3 data-i18n="goalTitle">Cieľ hry</h3>
+                <p data-i18n="goalText1">Cieľom celej hry je precvičiť u detí/skautov slovenskú (prípadne medzinárodnú) hláskovaciu abecedu používanú v rádioamatérskom svete a naučiť ich komunikácii podľa všeobecnej schémy pre fonické rádioamatérske spojenia.</p>
+                <p data-i18n="goalText2">Jednotlivé stanice "agenti" tak majú spolu zložiť "kódovanú správu", ktorá zachráni svet a jej znenie sa dozvedia na konci hry.</p>
             </div>
 
             <div class="card">
-                <h3>Priebeh hry</h3>
+                <h3 data-i18n="gameflowTitle">Priebeh hry</h3>
 
-                <h4 style="margin-top: 1.5rem;">1. Príprava</h4>
-                <p>Na začiatku hry skauti vytvoria 1-2 členné družstvá. Každé družstvo dostane PMR446 vysielačku. Všetky vysielačky sú nastavené na rovnaký kanál. RIADIACA STANICE (volací znak JOTA) odovzdá každému družstvu tvrdú papierovú dosku s perom a PROTOKOLOM STANICE a oznámi všetkým družstvám šifrovací kľúč - dve písmená, pomocou ktorého budú ďalej dešifrovať slová podľa pokynov na protokole.</p>
+                <h4 style="margin-top: 1.5rem;" data-i18n="step1">1. Príprava</h4>
+                <p data-i18n="step1Text">Na začiatku hry skauti vytvoria 1-2 členné družstvá. Každé družstvo dostane PMR446 vysielačku. Všetky vysielačky sú nastavené na rovnaký kanál. RIADIACA STANICE (volací znak JOTA) odovzdá každému družstvu tvrdú papierovú dosku s perom a PROTOKOLOM STANICE a oznámi všetkým družstvám šifrovací kľúč - dve písmená, pomocou ktorého budú ďalej dešifrovať slová podľa pokynov na protokole.</p>
 
-                <h4 style="margin-top: 2rem;">2. Rozmiestnenie</h4>
-                <p>Jednotlivé družstvá sa rozídu do priestoru (napríklad na lúke), tak aby sa navzájom nepočuli.</p>
+                <h4 style="margin-top: 2rem;" data-i18n="step2">2. Rozmiestnenie</h4>
+                <p data-i18n="step2Text">Jednotlivé družstvá sa rozídu do priestoru (napríklad na lúke), tak aby sa navzájom nepočuli.</p>
 
-                <h4 style="margin-top: 2rem;">3. Kontrola spojenia</h4>
-                <p>Riadiaca stanica spraví kontrolu spojenia s jednotlivými stanicami (x je poradové číslo stanice) podľa nasledujúcej schémy:</p>
+                <h4 style="margin-top: 2rem;" data-i18n="step3">3. Kontrola spojenia</h4>
+                <p data-i18n="step3Text">Riadiaca stanica spraví kontrolu spojenia s jednotlivými stanicami (x je poradové číslo stanice) podľa nasledujúcej schémy:</p>
                 <div style="background: #f8fafc; padding: 1rem; border-left: 4px solid #2563eb; margin: 1rem 0; font-family: monospace; font-size: 0.9rem;">
-                    <p style="margin: 0.25rem 0;">JOTAx volá ťa JOTA</p>
-                    <p style="margin: 0.25rem 0;">JOTA tu JOTAx Na príjme</p>
-                    <p style="margin: 0.25rem 0;"> JOTAx JOTA Ďakujem</p>
+                    <p style="margin: 0.25rem 0;" data-i18n="tx3_1">JOTAx volá ťa JOTA</p>
+                    <p style="margin: 0.25rem 0;" data-i18n="tx3_2">JOTA tu JOTAx Na príjme</p>
+                    <p style="margin: 0.25rem 0;" data-i18n="tx3_3">JOTAx JOTA Ďakujem</p>
                 </div>
 
-                <h4 style="margin-top: 2rem;">4. Odovzdávanie slov</h4>
-                <p>Riadiaca stanica postupne nadväzuje spojenia s jednotlivými stanicami a odovzdáva im slová, medzi jednotlivými slovami počká chvíľu:</p>
+                <h4 style="margin-top: 2rem;" data-i18n="step4">4. Odovzdávanie slov</h4>
+                <p data-i18n="step4Text">Riadiaca stanica postupne nadväzuje spojenia s jednotlivými stanicami a odovzdáva im slová, medzi jednotlivými slovami počká chvíľu:</p>
                 <div style="background: #f8fafc; padding: 1rem; border-left: 4px solid #2563eb; margin: 1rem 0; font-family: monospace; font-size: 0.9rem;">
-                    <p style="margin: 0.25rem 0;">JOTAx volá ťa JOTA</p>
-                    <p style="margin: 0.25rem 0;">JOTA JOTAx Počúvam</p>
-                    <p style="margin: 0.25rem 0;">JOTAx JOTA Prvé slovo: Tomáš Xaver Božena Peter Adam, opakujem: Tomáš Xaver Božena Peter Adam. Máš zapísané?</p>
-                    <p style="margin: 0.25rem 0;">JOTA JOTAx Áno, mám všetko zapísané, môžeš pokračovať druhým slovom</p>
-                    <p style="margin: 0.25rem 0;">JOTAx JOTA Druhé slovo: Jozef Adam Norbert Karol Oto, opakujem: Jozef Adam Norbert Karol Oto. Máš zapísané?</p>
-                    <p style="margin: 0.25rem 0;">JOTA JOTAx Všetko prijaté, môžeš pokračovať na ďalšiu stanicu.</p>
+                    <p style="margin: 0.25rem 0;" data-i18n="tx4_1">JOTAx volá ťa JOTA</p>
+                    <p style="margin: 0.25rem 0;" data-i18n="tx4_2">JOTA JOTAx Počúvam</p>
+                    <p style="margin: 0.25rem 0;" data-i18n="tx4_3">JOTAx JOTA Prvé slovo: Tomáš Xaver Božena Peter Adam, opakujem: Tomáš Xaver Božena Peter Adam. Máš zapísané?</p>
+                    <p style="margin: 0.25rem 0;" data-i18n="tx4_4">JOTA JOTAx Áno, mám všetko zapísané, môžeš pokračovať druhým slovom</p>
+                    <p style="margin: 0.25rem 0;" data-i18n="tx4_5">JOTAx JOTA Druhé slovo: Jozef Adam Norbert Karol Oto, opakujem: Jozef Adam Norbert Karol Oto. Máš zapísané?</p>
+                    <p style="margin: 0.25rem 0;" data-i18n="tx4_6">JOTA JOTAx Všetko prijaté, môžeš pokračovať na ďalšiu stanicu.</p>
                 </div>
-                <p>Stanica JOTAx poskladá na základe hláskovacej abecedy z vyhláskovaných písmen slovo 1 a slovo 2 a zapíše ho do protokolu. Potom začne spracovávať slová podľa pokynov v protokole - dešifruje slovo 2 podľa kľúča. Riadiaca stanica pokračuje spojením s ďalšou JOTAx stanicou.</p>
+                <p data-i18n="step4Text2">Stanica JOTAx poskladá na základe hláskovacej abecedy z vyhláskovaných písmen slovo 1 a slovo 2 a zapíše ho do protokolu. Potom začne spracovávať slová podľa pokynov v protokole - dešifruje slovo 2 podľa kľúča. Riadiaca stanica pokračuje spojením s ďalšou JOTAx stanicou.</p>
 
-                <h4 style="margin-top: 2rem;">5. Kontrola pripravenosti</h4>
-                <p>Riadiaca stanica nechá všetkým staniciam čas na spracovanie úlohy (cca 10 minút od komunikácie s poslednou stanicou) a následne zavolá všeobecnú výzvu, na ktorú budú stanice JOTAx odpovedať statusom o pripravenosti:</p>
+                <h4 style="margin-top: 2rem;" data-i18n="step5">5. Kontrola pripravenosti</h4>
+                <p data-i18n="step5Text">Riadiaca stanica nechá všetkým staniciam čas na spracovanie úlohy (cca 10 minút od komunikácie s poslednou stanicou) a následne zavolá všeobecnú výzvu, na ktorú budú stanice JOTAx odpovedať statusom o pripravenosti:</p>
                 <div style="background: #f8fafc; padding: 1rem; border-left: 4px solid #2563eb; margin: 1rem 0; font-family: monospace; font-size: 0.9rem;">
-                    <p style="margin: 0.25rem 0;">Výzva pre všetky stanice, tu JOTA: JOTA1 až JOTAn, oznámte svoju pripravenosť odpovedať na úlohy!</p>
+                    <p style="margin: 0.25rem 0;" data-i18n="tx5_1">Výzva pre všetky stanice, tu JOTA: JOTA1 až JOTAn, oznámte svoju pripravenosť odpovedať na úlohy!</p>
                 </div>
-                <p>Jednotlivé stanice odpovedajú:</p>
+                <p data-i18n="step5Text2">Jednotlivé stanice odpovedajú:</p>
                 <div style="background: #f8fafc; padding: 1rem; border-left: 4px solid #2563eb; margin: 1rem 0; font-family: monospace; font-size: 0.9rem;">
-                    <p style="margin: 0.25rem 0;">JOTA JOTAx: Pripravená / Potrebujeme ešte čas</p>
+                    <p style="margin: 0.25rem 0;" data-i18n="tx5_2">JOTA JOTAx: Pripravená / Potrebujeme ešte čas</p>
                 </div>
-                <p>V prípade, že niektoré stanice nebudú ešte pripravené, riadiaca stanica im nechá čas a neskôr zopakuje výzvu znova. Keď sú všetky JOTAx stanice pripravené, začne fáza odovzdávania riešení úloh.</p>
+                <p data-i18n="step5Text3">V prípade, že niektoré stanice nebudú ešte pripravené, riadiaca stanica im nechá čas a neskôr zopakuje výzvu znova. Keď sú všetky JOTAx stanice pripravené, začne fáza odovzdávania riešení úloh.</p>
 
-                <h4 style="margin-top: 2rem;">6. Odovzdávanie riešení</h4>
-                <p>Riadiaca stanica postupne volá všetky stanice a žiada o vyhláskovanie dešifrovaného 1. slova. Výsledok skontroluje podľa protokolu riadiacej stanice, v riadku KONTROLA a označí zakrúžkovaním stanicu ak správne dešifrovala slovo 2.</p>
+                <h4 style="margin-top: 2rem;" data-i18n="step6">6. Odovzdávanie riešení</h4>
+                <p data-i18n="step6Text">Riadiaca stanica postupne volá všetky stanice a žiada o vyhláskovanie dešifrovaného 1. slova. Výsledok skontroluje podľa protokolu riadiacej stanice, v riadku KONTROLA a označí zakrúžkovaním stanicu ak správne dešifrovala slovo 2.</p>
                 <div style="background: #f8fafc; padding: 1rem; border-left: 4px solid #2563eb; margin: 1rem 0; font-family: monospace; font-size: 0.9rem;">
-                    <p style="margin: 0.25rem 0;">JOTAx volá ťa JOTA Vyhlaskuj dešifrované 1. slovo</p>
-                    <p style="margin: 0.25rem 0;">JOTA JOTAx Slovo je: Cyril Adam Rudolf Norbert Ivan</p>
-                    <p style="margin: 0.25rem 0;">JOTAx JOTA Ďakujem, Sedem Tri.</p>
+                    <p style="margin: 0.25rem 0;" data-i18n="tx6_1">JOTAx volá ťa JOTA Vyhlaskuj dešifrované 1. slovo</p>
+                    <p style="margin: 0.25rem 0;" data-i18n="tx6_2">JOTA JOTAx Slovo je: Cyril Adam Rudolf Norbert Ivan</p>
+                    <p style="margin: 0.25rem 0;" data-i18n="tx6_3">JOTAx JOTA Ďakujem, Sedem Tri.</p>
                 </div>
             </div>
 
             <div class="card">
-                <h3>Ukončenie hry</h3>
-                <p>Po odovzdaní všetkých dekódovaných slov stanicami sa všetky družstvá zídu pri Riadiacej stanici, ktorá vyhodnotí protokoly jednotlivých staníc a prejdú si spolu jednotlivé problemové momenty, s ktorými stanice mohli mať ťažkosti.</p>
-                <p>Nakoniec Riadiaca stanica oznámi všetkým staniciam spoločne dešifrovanú správu, ktorá pomohla zachrániť svet a rozdá družstvám prípadne odmeny.</p>
+                <h3 data-i18n="endingTitle">Ukončenie hry</h3>
+                <p data-i18n="endingText1">Po odovzdaní všetkých dekódovaných slov stanicami sa všetky družstvá zídu pri Riadiacej stanici, ktorá vyhodnotí protokoly jednotlivých staníc a prejdú si spolu jednotlivé problemové momenty, s ktorými stanice mohli mať ťažkosti.</p>
+                <p data-i18n="endingText2">Nakoniec Riadiaca stanica oznámi všetkým staniciam spoločne dešifrovanú správu, ktorá pomohla zachrániť svet a rozdá družstvám prípadne odmeny.</p>
             </div>
 
             <div class="card" style="background: #fef3c7; border: 1px solid #fbbf24;">
-                <h3>Príklady správ</h3>
+                <h3 data-i18n="examplesTitle">Príklady správ</h3>
                 <div style="font-family: monospace; margin-top: 1rem;">
                     <p style="margin-top: 0.5rem;">1. CARNI BOCAN NOZKI ZMOCI HLAVU VNORI ZABKU CHICI DOBRE CHUTI</p>
                     <p style="margin-top: 0.5rem;">2. DZIVA LABUT PLAVA ZOBAK VNARA RYBKU CHYTA</p>
@@ -604,12 +645,12 @@
 
             <div class="grid-2">
                 <div class="card">
-                    <h3>Protokol stanice</h3>
-                    <p>Protokol stanice je formátu A4. V dolnej pravej časti je fixný kruh s malými písmenkami anglickej abecedy vo vonkajších poliach. Súčasťou protokolu je aj externý rotovací kľúčovací krúžok, ktorý sa vloží do vnútorného poľa fixného kruhu a nastaví sa podľa zdeleného kľúča. Písmená v tomto rotovateľnom kruhu sú veľké. Oba kruhy predstavujú šifrovanie Albertiho šifrou.</p>
+                    <h3 data-i18n="protocolStationTitle">Protokol stanice</h3>
+                    <p data-i18n="protocolStationText">Protokol stanice je formátu A4. V dolnej pravej časti je fixný kruh s malými písmenkami anglickej abecedy vo vonkajších poliach. Súčasťou protokolu je aj externý rotovací kľúčovací krúžok, ktorý sa vloží do vnútorného poľa fixného kruhu a nastaví sa podľa zdeleného kľúča. Písmená v tomto rotovateľnom kruhu sú veľké. Oba kruhy predstavujú šifrovanie Albertiho šifrou.</p>
                 </div>
                 <div class="card">
-                    <h3>Protokol riadiacej stanice</h3>
-                    <p>Protokol riadiacej stanice je tabuľka s párom slov pre každú stanicu a v kontrolnom riadku je dešifrované 1. slovo na základe kľúča Albertiho šifry. Tento protokol používa riadiaca stanica na prípravu hry a kontrolu výsledkov.</p>
+                    <h3 data-i18n="protocolControlTitle">Protokol riadiacej stanice</h3>
+                    <p data-i18n="protocolControlText">Protokol riadiacej stanice je tabuľka s párom slov pre každú stanicu a v kontrolnom riadku je dešifrované 1. slovo na základe kľúča Albertiho šifry. Tento protokol používa riadiaca stanica na prípravu hry a kontrolu výsledkov.</p>
                 </div>
             </div>
         </div>
@@ -617,24 +658,24 @@
         <!-- Station Protocol Tab -->
         <div id="tab-station" class="tab-content">
             <div class="subtabs no-print">
-                <button class="subtab active" onclick="switchSubtab('protocol', this)">Protokol Stanice</button>
-                <button class="subtab" onclick="switchSubtab('circles', this)">Vnútorné Kotúče</button>
+                <button class="subtab active" onclick="switchSubtab('protocol', this)" data-i18n="subtabProtocol">Protokol Stanice</button>
+                <button class="subtab" onclick="switchSubtab('circles', this)" data-i18n="subtabCircles">Vnútorné Kotúče</button>
             </div>
 
             <!-- Protocol Subtab -->
             <div id="subtab-protocol" class="subtab-content active">
                 <div class="card no-print">
-                    <h2>Generátor Protokolu Stanice</h2>
-                    <p style="margin-bottom: 1.5rem; color: #64748b;">Názov stanice a šifrovací kľúč sa vypíšu ručne na vytlačený protokol počas hry.</p>
+                    <h2 data-i18n="stationProtocolGenTitle">Generátor Protokolu Stanice</h2>
+                    <p style="margin-bottom: 1.5rem; color: #64748b;" data-i18n="stationProtocolNote">Názov stanice a šifrovací kľúč sa vypíšu ručne na vytlačený protokol počas hry.</p>
                     <div class="form-group">
-                        <label>Počet kópií protokolu</label>
+                        <label data-i18n="copiesLabel">Počet kópií protokolu</label>
                         <div class="number-control">
                             <button onclick="changeProtocolCopies(-1)">-</button>
                             <input type="number" id="protocolCopies" value="1" min="1" max="50" onchange="updateProtocolCopies()">
                             <button onclick="changeProtocolCopies(1)">+</button>
                         </div>
                     </div>
-                    <button onclick="printProtocol()">🖨️ Tlačiť protokol</button>
+                    <button onclick="printProtocol()" data-i18n="printButton">🖨️ Tlačiť protokol</button>
                 </div>
 
                 <div id="station-protocols"></div>
@@ -643,11 +684,11 @@
             <!-- Circles Subtab -->
             <div id="subtab-circles" class="subtab-content">
                 <div class="card no-print">
-                    <h2>Generátor Vnútorných Kotúčov</h2>
-                    <p style="margin-bottom: 1.5rem; color: #64748b;">Vnútorné kotúče sa vytlačia, vystrihnú a vložia do protokolu stanice pre dešifrovanie.</p>
+                    <h2 data-i18n="innerCirclesGenTitle">Generátor Vnútorných Kotúčov</h2>
+                    <p style="margin-bottom: 1.5rem; color: #64748b;" data-i18n="innerCirclesNote">Vnútorné kotúče sa vytlačia, vystrihnú a vložia do protokolu stanice pre dešifrovanie.</p>
 
                     <div class="form-group">
-                        <label>Veľkosť kotúča (px)</label>
+                        <label data-i18n="wheelSizeLabel">Veľkosť kotúča (px)</label>
                         <div class="number-control">
                             <button onclick="changeWheelSize(-10)">-</button>
                             <input type="number" id="wheelSize" value="350" min="100" max="400" step="10" onchange="updateWheelSize()">
@@ -657,7 +698,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Počet vnútorných kotúčov</label>
+                        <label data-i18n="innerCirclesLabel">Počet vnútorných kotúčov</label>
                         <div class="number-control">
                             <button onclick="changeCircleCount(-1)">-</button>
                             <input type="number" id="circleCount" value="6" min="1" max="100" onchange="updateCircleCount()">
@@ -666,7 +707,7 @@
                         <small id="totalPages"></small>
                     </div>
 
-                    <button onclick="printCircles()">🖨️ Tlačiť kotúče</button>
+                    <button onclick="printCircles()" data-i18n="printCirclesButton">🖨️ Tlačiť kotúče</button>
                 </div>
 
                 <div id="inner-wheels"></div>
@@ -676,10 +717,10 @@
         <!-- Control Protocol Tab -->
         <div id="tab-control" class="tab-content">
             <div class="card no-print">
-                <h2>Generátor Protokolu Riadiacej Stanice</h2>
+                <h2 data-i18n="controlProtocolGenTitle">Generátor Protokolu Riadiacej Stanice</h2>
 
                 <div class="form-group">
-                    <label>Počet staníc</label>
+                    <label data-i18n="numStationsLabel">Počet staníc</label>
                     <div class="number-control">
                         <button onclick="changeNumStations(-1)">-</button>
                         <input type="number" id="numStations" value="5" min="1" max="20" onchange="updateNumStations()">
@@ -688,26 +729,26 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="controlKey">Šifrovací kľúč (2 písmená)</label>
-                    <input type="text" id="controlKey" placeholder="Napríklad: xA" maxlength="2">
-                    <small>Prvé písmeno z vonkajšieho kruhu (malé), druhé z vnútorného (veľké).</small>
+                    <label for="controlKey" data-i18n="encryptionKeyLabel">Šifrovací kľúč (2 písmená)</label>
+                    <input type="text" id="controlKey" data-i18n-placeholder="encryptionKeyPlaceholder" placeholder="Napríklad: xA" maxlength="2">
+                    <small data-i18n="encryptionKeyHelp">Prvé písmeno z vonkajšieho kruhu (malé), druhé z vnútorného (veľké).</small>
                 </div>
 
                 <div class="form-group">
-                    <label for="resultPhrase">Výsledná fráza (slová oddelené medzerou)</label>
-                    <textarea id="resultPhrase" placeholder="Napríklad: ČÁRNI BOČAN NOŽKI ZMOČÍ HLAVU" style="text-transform: uppercase;"></textarea>
-                    <small>Toto sú slová, ktoré stanice dešifrujú. Vytvorte zmysluplnú frázu.</small>
+                    <label for="resultPhrase" data-i18n="resultPhraseLabel">Výsledná fráza (slová oddelené medzerou)</label>
+                    <textarea id="resultPhrase" data-i18n-placeholder="resultPhrasePlaceholder" placeholder="Napríklad: ČÁRNI BOČAN NOŽKI ZMOČÍ HLAVU" style="text-transform: uppercase;"></textarea>
+                    <small data-i18n="resultPhraseHelp">Toto sú slová, ktoré stanice dešifrujú. Vytvorte zmysluplnú frázu.</small>
                 </div>
 
                 <div class="form-group">
-                    <label for="controlWords">Kontrolné slová pre 2. riadok (voliteľné)</label>
-                    <textarea id="controlWords" placeholder="Napríklad: ADAM BORIS CYRIL (nechajte prázdne pre náhodné generovanie)" style="text-transform: uppercase;"></textarea>
-                    <small>Slová sa náhodne vygenerujú, ak nič nezadáte.</small>
+                    <label for="controlWords" data-i18n="controlWordsLabel">Kontrolné slová pre 2. riadok (voliteľné)</label>
+                    <textarea id="controlWords" data-i18n-placeholder="controlWordsPlaceholder" placeholder="Napríklad: ADAM BORIS CYRIL (nechajte prázdne pre náhodné generovanie)" style="text-transform: uppercase;"></textarea>
+                    <small data-i18n="controlWordsHelp">Slová sa náhodne vygenerujú, ak nič nezadáte.</small>
                 </div>
 
                 <div class="button-group">
-                    <button onclick="generateControlProtocol()">✨ Generovať protokol</button>
-                    <button class="secondary" onclick="window.print()" id="printControlBtn" style="display: none;">🖨️ Tlačiť</button>
+                    <button onclick="generateControlProtocol()" data-i18n="generateButton">✨ Generovať protokol</button>
+                    <button class="secondary" onclick="window.print()" id="printControlBtn" style="display: none;" data-i18n="printButton">🖨️ Tlačiť</button>
                 </div>
             </div>
 
@@ -717,25 +758,431 @@
 
     <script>
         // Constants
-        const PHONETIC_ALPHABET = [
-            ['A', 'Adam'], ['B', 'Božena'], ['C', 'Cyril'], ['D', 'Dávid'],
-            ['E', 'Emil'], ['F', 'František'], ['G', 'Gustáv'], ['H', 'Helena'],
-            ['I', 'Ivan'], ['J', 'Jozef'], ['K', 'Karol'], ['L', 'Ladislav'],
-            ['M', 'Mária'], ['N', 'Norbert'], ['O', 'Oto'], ['P', 'Peter'],
-            ['Q', 'Quído'], ['R', 'Rudolf'], ['S', 'Svätopluk'], ['T', 'Tomáš'],
-            ['U', 'Urban'], ['V', 'Václav'], ['W', 'Dvojité W'], ['X', 'Xaver'],
-            ['Y', 'Ypsilon'], ['Z', 'Zuzana']
-        ];
+        const PHONETIC_ALPHABETS = {
+            sk: [
+                ['A', 'Adam'], ['B', 'Božena'], ['C', 'Cyril'], ['D', 'Dávid'],
+                ['E', 'Emil'], ['F', 'František'], ['G', 'Gustáv'], ['H', 'Helena'],
+                ['I', 'Ivan'], ['J', 'Jozef'], ['K', 'Karol'], ['L', 'Ladislav'],
+                ['M', 'Mária'], ['N', 'Norbert'], ['O', 'Oto'], ['P', 'Peter'],
+                ['Q', 'Quído'], ['R', 'Rudolf'], ['S', 'Svätopluk'], ['T', 'Tomáš'],
+                ['U', 'Urban'], ['V', 'Václav'], ['W', 'Dvojité W'], ['X', 'Xaver'],
+                ['Y', 'Ypsilon'], ['Z', 'Zuzana']
+            ],
+            en: [
+                ['A', 'Alfa'], ['B', 'Bravo'], ['C', 'Charlie'], ['D', 'Delta'],
+                ['E', 'Echo'], ['F', 'Foxtrot'], ['G', 'Golf'], ['H', 'Hotel'],
+                ['I', 'India'], ['J', 'Juliet'], ['K', 'Kilo'], ['L', 'Lima'],
+                ['M', 'Mike'], ['N', 'November'], ['O', 'Oscar'], ['P', 'Papa'],
+                ['Q', 'Quebec'], ['R', 'Romeo'], ['S', 'Sierra'], ['T', 'Tango'],
+                ['U', 'Uniform'], ['V', 'Victor'], ['W', 'Whiskey'], ['X', 'Xray'],
+                ['Y', 'Yankee'], ['Z', 'Zulu']
+            ],
+            pt_BR: [
+                ['A', 'Alfa'], ['B', 'Bravo'], ['C', 'Charlie'], ['D', 'Delta'],
+                ['E', 'Echo'], ['F', 'Foxtrot'], ['G', 'Golf'], ['H', 'Hotel'],
+                ['I', 'India'], ['J', 'Juliet'], ['K', 'Kilo'], ['L', 'Lima'],
+                ['M', 'Mike'], ['N', 'November'], ['O', 'Oscar'], ['P', 'Papa'],
+                ['Q', 'Quebec'], ['R', 'Romeo'], ['S', 'Sierra'], ['T', 'Tango'],
+                ['U', 'Uniform'], ['V', 'Victor'], ['W', 'Whiskey'], ['X', 'Xray'],
+                ['Y', 'Yankee'], ['Z', 'Zulu']
+            ]
+        };
 
-        const SLOVAK_NAMES = [
-            'ADAM', 'ALENA', 'BORIS', 'CYRIL', 'DAVID', 'ELENA', 'EMIL',
-            'FILIP', 'GUSTAV', 'HELENA', 'IVAN', 'JANA', 'KAROL', 'MARIA',
-            'MILAN', 'NINA', 'ONDREJ', 'PAULA', 'PETER', 'ROBERT', 'SOFIA',
-            'TOMAS', 'URBAN', 'VERA', 'ZUZANA', 'BOCAN', 'LABUT', 'ZABKA'
-        ];
+        const RANDOM_WORDS = {
+            sk: [
+                'ALENA', 'BORIS', 'CYRIL', 'DAVID', 'ELENA', 'FILIP',
+                'KAROL', 'MARIA', 'MILAN', 'PAULA', 'PETER', 'SOFIA',
+                'TOMAS', 'URBAN', 'BOCAN', 'LABUT', 'ZABKA', 'CARNI',
+                'NOZKI', 'ZMOCI', 'HLAVU', 'VNORI', 'ZABKU', 'CHICI',
+                'DOBRE', 'CHUTI', 'DZIVA', 'PLAVA', 'ZOBAK', 'SLOVO',
+                'STROM', 'VODA', 'BURKA', 'VIETR', 'BLESK', 'MRAKY'
+            ],
+            en: [
+                'BRAVO', 'DELTA', 'HOTEL', 'INDIA', 'OSCAR', 'ROMEO',
+                'TANGO', 'BLACK', 'STORK', 'HEADS', 'BIRDS', 'WATER',
+                'CLOUD', 'STORM', 'WINDS', 'RAINS', 'SNOWS', 'TREES',
+                'PLANT', 'EARTH', 'RIVER', 'STONE', 'FLASH', 'NIGHT',
+                'LIGHT', 'SOUND', 'WORLD', 'PEACE', 'MUSIC', 'POWER'
+            ],
+            pt_BR: [
+                'BRAVO', 'DELTA', 'HOTEL', 'INDIA', 'OSCAR', 'ROMEO',
+                'TANGO', 'CISNE', 'PRETO', 'MOLHA', 'AGUAS', 'CHUVA',
+                'SOLES', 'VENTO', 'NUVEM', 'PEIXE', 'MARES', 'TERRA',
+                'MUNDO', 'PEDRA', 'CLARO', 'NOITE', 'LUZES', 'VOZES',
+                'FORTE', 'CAMPO', 'FOGO', 'RAIOS', 'NUVENS', 'VENTOS'
+            ]
+        };
 
         const OUTER_FIXED = 'xftzdrseawqmlpnkobjivhucgy';
         const INNER_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        // Translations
+        let currentLang = localStorage.getItem('agentGameLang') || 'sk';
+
+        const translations = {
+            sk: {
+                title: "Hra na agenta",
+                subtitle: "Generátor protokolov pre skautské družstvá",
+                tabInstructions: "Inštrukcie",
+                tabStation: "Protokol stanice",
+                tabControl: "Protokol riadiacej stanice",
+                subtabProtocol: "Protokol Stanice",
+                subtabCircles: "Vnútorné Kotúče",
+
+                // Instructions
+                gameTitle: "Hra na agenta",
+                gameIntro: "Hra na agenta je hrá pre 1-2 členné družstvá detí (skautov), tieto družstva sú nazvané STANICE, alebo \"agenti\" (volacie znaky: JOTA1, JOTA2...). STANICE prijímajú povely od RIADIACEJ STANICE (volací znak JOTA), a na základe jej povelov jej naspäť komunikujú svoje zistenia. Na konci hry každá STANICA odovzdá RIADIACEJ STANICI PROTOKOL s výsledkami svojich zistení. RIADIACA STANICA vyhodnoti protokoly všetkých staníc a oznámi výsledok hry. Jednotlivé stanice \"agenti\" tak majú spolu zložiť \"kódovanu správu\", ktorá zachráni svet a jej znenie sa dozvedia na konci hry.",
+                goalTitle: "Cieľ hry",
+                goalText1: "Cieľom celej hry je precvičiť u detí/skautov slovenskú (prípadne medzinárodnú) hláskovaciu abecedu používanú v rádioamatérskom svete a naučiť ich komunikácii podľa všeobecnej schémy pre fonické rádioamatérske spojenia.",
+                goalText2: "Jednotlivé stanice \"agenti\" tak majú spolu zložiť \"kódovanú správu\", ktorá zachráni svet a jej znenie sa dozvedia na konci hry.",
+                gameflowTitle: "Priebeh hry",
+                step1: "1. Príprava",
+                step1Text: "Na začiatku hry skauti vytvoria 1-2 členné družstvá. Každé družstvo dostane PMR446 vysielačku. Všetky vysielačky sú nastavené na rovnaký kanál. RIADIACA STANICE (volací znak JOTA) odovzdá každému družstvu tvrdú papierovú dosku s perom a PROTOKOLOM STANICE a oznámi všetkým družstvám šifrovací kľúč - dve písmená, pomocou ktorého budú ďalej dešifrovať slová podľa pokynov na protokole.",
+                step2: "2. Rozmiestnenie",
+                step2Text: "Jednotlivé družstvá sa rozídu do priestoru (napríklad na lúke), tak aby sa navzájom nepočuli.",
+                step3: "3. Kontrola spojenia",
+                step3Text: "Riadiaca stanica spraví kontrolu spojenia s jednotlivými stanicami (x je poradové číslo stanice) podľa nasledujúcej schémy:",
+                step4: "4. Odovzdávanie slov",
+                step4Text: "Riadiaca stanica postupne nadväzuje spojenia s jednotlivými stanicami a odovzdáva im slová, medzi jednotlivými slovami počká chvíľu:",
+                step4Text2: "Stanica JOTAx poskladá na základe hláskovacej abecedy z vyhláskovaných písmen slovo 1 a slovo 2 a zapíše ho do protokolu. Potom začne spracovávať slová podľa pokynov v protokole - dešifruje slovo 2 podľa kľúča. Riadiaca stanica pokračuje spojením s ďalšou JOTAx stanicou.",
+                step5: "5. Kontrola pripravenosti",
+                step5Text: "Riadiaca stanica nechá všetkým staniciam čas na spracovanie úlohy (cca 10 minút od komunikácie s poslednou stanicou) a následne zavolá všeobecnú výzvu, na ktorú budú stanice JOTAx odpovedať statusom o pripravenosti:",
+                step5Text2: "Jednotlivé stanice odpovedajú:",
+                step5Text3: "V prípade, že niektoré stanice nebudú ešte pripravené, riadiaca stanica im nechá čas a neskôr zopakuje výzvu znova. Keď sú všetky JOTAx stanice pripravené, začne fáza odovzdávania riešení úloh.",
+                step6: "6. Odovzdávanie riešení",
+                step6Text: "Riadiaca stanica postupne volá všetky stanice a žiada o vyhláskovanie dešifrovaného 1. slova. Výsledok skontroluje podľa protokolu riadiacej stanice, v riadku KONTROLA a označí zakrúžkovaním stanicu ak správne dešifrovala slovo 2.",
+
+                // Radio transmissions
+                tx3_1: "JOTAx volá ťa JOTA",
+                tx3_2: "JOTA tu JOTAx Na príjme",
+                tx3_3: "JOTAx JOTA Ďakujem",
+                tx4_1: "JOTAx volá ťa JOTA",
+                tx4_2: "JOTA JOTAx Počúvam",
+                tx4_3: "JOTAx JOTA Prvé slovo: Tomáš Xaver Božena Peter Adam, opakujem: Tomáš Xaver Božena Peter Adam. Máš zapísané?",
+                tx4_4: "JOTA JOTAx Áno, mám všetko zapísané, môžeš pokračovať druhým slovom",
+                tx4_5: "JOTAx JOTA Druhé slovo: Jozef Adam Norbert Karol Oto, opakujem: Jozef Adam Norbert Karol Oto. Máš zapísané?",
+                tx4_6: "JOTA JOTAx Všetko prijaté, môžeš pokračovať na ďalšiu stanicu.",
+                tx5_1: "Výzva pre všetky stanice, tu JOTA: JOTA1 až JOTAn, oznámte svoju pripravenosť odpovedať na úlohy!",
+                tx5_2: "JOTA JOTAx: Pripravená / Potrebujeme ešte čas",
+                tx6_1: "JOTAx volá ťa JOTA Vyhlaskuj dešifrované 1. slovo",
+                tx6_2: "JOTA JOTAx Slovo je: Cyril Adam Rudolf Norbert Ivan",
+                tx6_3: "JOTAx JOTA Ďakujem, Sedem Tri.",
+
+                endingTitle: "Ukončenie hry",
+                endingText1: "Po odovzdaní všetkých dekódovaných slov stanicami sa všetky družstvá zídu pri Riadiacej stanici, ktorá vyhodnotí protokoly jednotlivých staníc a prejdú si spolu jednotlivé problemové momenty, s ktorými stanice mohli mať ťažkosti.",
+                endingText2: "Nakoniec Riadiaca stanica oznámi všetkým staniciam spoločne dešifrovanú správu, ktorá pomohla zachrániť svet a rozdá družstvám prípadne odmeny.",
+                examplesTitle: "Príklady správ",
+                protocolStationTitle: "Protokol stanice",
+                protocolStationText: "Protokol stanice je formátu A4. V dolnej pravej časti je fixný kruh s malými písmenkami anglickej abecedy vo vonkajších poliach. Súčasťou protokolu je aj externý rotovací kľúčovací krúžok, ktorý sa vloží do vnútorného poľa fixného kruhu a nastaví sa podľa zdeleného kľúča. Písmená v tomto rotovateľnom kruhu sú veľké. Oba kruhy predstavujú šifrovanie Albertiho šifrou.",
+                protocolControlTitle: "Protokol riadiacej stanice",
+                protocolControlText: "Protokol riadiacej stanice je tabuľka s párom slov pre každú stanicu a v kontrolnom riadku je dešifrované 1. slovo na základe kľúča Albertiho šifry. Tento protokol používa riadiaca stanica na prípravu hry a kontrolu výsledkov.",
+
+                // Station Protocol
+                stationProtocolGenTitle: "Generátor Protokolu Stanice",
+                stationProtocolNote: "Názov stanice a šifrovací kľúč sa vypíšu ručne na vytlačený protokol počas hry.",
+                copiesLabel: "Počet kópií protokolu",
+                printButton: "🖨️ Tlačiť protokol",
+
+                // Inner Circles
+                innerCirclesGenTitle: "Generátor Vnútorných Kotúčov",
+                innerCirclesNote: "Vnútorné kotúče sa vytlačia, vystrihnú a vložia do protokolu stanice pre dešifrovanie.",
+                wheelSizeLabel: "Veľkosť kotúča (px)",
+                innerCirclesLabel: "Počet vnútorných kotúčov",
+                printCirclesButton: "🖨️ Tlačiť kotúče",
+                wheelsPerPage: "kotúčov na stranu",
+                pages: "strán",
+                page: "strana",
+                pages2: "strany",
+
+                // Control Protocol
+                controlProtocolGenTitle: "Generátor Protokolu Riadiacej Stanice",
+                numStationsLabel: "Počet staníc",
+                encryptionKeyLabel: "Šifrovací kľúč (2 písmená)",
+                encryptionKeyPlaceholder: "Napríklad: xA",
+                encryptionKeyHelp: "Prvé písmeno z vonkajšieho kruhu (malé), druhé z vnútorného (veľké).",
+                resultPhraseLabel: "Výsledná fráza (slová oddelené medzerou)",
+                resultPhrasePlaceholder: "Napríklad: ČÁRNI BOČAN NOŽKI ZMOČÍ HLAVU",
+                resultPhraseHelp: "Toto sú slová, ktoré stanice dešifrujú. Každé slovo presne 5 znakov.",
+                controlWordsLabel: "Kontrolné slová pre 2. riadok (voliteľné)",
+                controlWordsPlaceholder: "Napríklad: ALENA BORIS CYRIL (nechajte prázdne pre náhodné generovanie)",
+                controlWordsHelp: "Slová sa náhodne vygenerujú, ak nič nezadáte. Každé slovo presne 5 znakov.",
+                generateButton: "✨ Generovať protokol",
+
+                // Protocol labels
+                station: "STANICA",
+                key: "KĽÚČ",
+                word1: "1. SLOVO",
+                word2: "2. SLOVO",
+                decodeInstruction: "DEKÓDUJ 1. RIADOK PODĽA KĽÚČA",
+                callCentralInstruction: "ZAVOLAJ CENTRÁLNU STANICU JOTA A ODOVZDAJ DEKÓDOVANÉ SLOVO.",
+                spellInstruction: "SLOVO VYHLÁSKUJ POUŽITÍM HLÁSKOVACEJ ABECEDY",
+                keyCodeWords: "KĽÚČ - Kódové slová",
+                control: "KONTROLA",
+
+                // Alerts
+                alertInvalidKey: "Zadajte platný 2-znakový kľúč!",
+                alertNoPhrase: "Zadajte výslednú frázu!",
+                alertWordTooLong: "Slovo '{word}' má {length} znakov. Slovo musí mať presne 5 znakov."
+            },
+            en: {
+                title: "Agent Game",
+                subtitle: "Protocol Generator for Scout Teams",
+                tabInstructions: "Instructions",
+                tabStation: "Station Protocol",
+                tabControl: "Control Station Protocol",
+                subtabProtocol: "Station Protocol",
+                subtabCircles: "Inner Wheels",
+
+                // Instructions
+                gameTitle: "Agent Game",
+                gameIntro: "Agent Game is a game for 1-2 member teams of children (scouts), these teams are called STATIONS, or \"agents\" (callsigns: JOTA1, JOTA2...). STATIONS receive commands from the CONTROL STATION (callsign JOTA), and based on its commands they communicate their findings back. At the end of the game, each STATION submits a PROTOCOL with the results of their findings to the CONTROL STATION. The CONTROL STATION evaluates the protocols of all stations and announces the game result. Individual \"agent\" stations must together compose a \"coded message\" that will save the world and they will learn its content at the end of the game.",
+                goalTitle: "Game Objective",
+                goalText1: "The objective of the entire game is to practice the Slovak (or international) phonetic alphabet used in the amateur radio world among children/scouts and to teach them communication according to the general scheme for phonic amateur radio connections.",
+                goalText2: "Individual \"agent\" stations must together compose a \"coded message\" that will save the world and they will learn its content at the end of the game.",
+                gameflowTitle: "Game Flow",
+                step1: "1. Preparation",
+                step1Text: "At the beginning of the game, scouts form 1-2 member teams. Each team gets a PMR446 radio. All radios are set to the same channel. The CONTROL STATION (callsign JOTA) gives each team a hard paperboard with a pen and STATION PROTOCOL and announces to all teams the encryption key - two letters, which they will use to decrypt words according to the instructions on the protocol.",
+                step2: "2. Deployment",
+                step2Text: "Individual teams spread out in the area (for example on a meadow), so that they cannot hear each other.",
+                step3: "3. Connection Check",
+                step3Text: "The control station performs a connection check with individual stations (x is the station sequence number) according to the following scheme:",
+                step4: "4. Word Transmission",
+                step4Text: "The control station successively establishes connections with individual stations and transmits words to them, waiting a moment between individual words:",
+                step4Text2: "Station JOTAx assembles word 1 and word 2 from the spelled letters based on the phonetic alphabet and writes it in the protocol. Then it begins processing the words according to the instructions in the protocol - decrypts word 2 according to the key. The control station continues with the connection to the next JOTAx station.",
+                step5: "5. Readiness Check",
+                step5Text: "The control station gives all stations time to process the task (about 10 minutes from communication with the last station) and then calls a general call, to which JOTAx stations will respond with readiness status:",
+                step5Text2: "Individual stations respond:",
+                step5Text3: "If some stations are not yet ready, the control station gives them time and later repeats the call again. When all JOTAx stations are ready, the phase of submitting solutions begins.",
+                step6: "6. Solution Submission",
+                step6Text: "The control station successively calls all stations and asks for spelling of the decrypted 1st word. It checks the result according to the control station protocol, in the CONTROL row and marks the station by circling if it correctly decrypted word 2.",
+
+                // Radio transmissions
+                tx3_1: "JOTAx JOTA",
+                tx3_2: "JOTA here's JOTAx Listening",
+                tx3_3: "JOTAx JOTA Thank you",
+                tx4_1: "JOTAx JOTA",
+                tx4_2: "JOTA JOTAx Listening",
+                tx4_3: "JOTAx JOTA First word: Tango Xray Bravo Papa Alfa, repeat: Tango Xray Bravo Papa Alfa. Copy?",
+                tx4_4: "JOTA JOTAx Yes, all copied, you can proceed with second word",
+                tx4_5: "JOTAx JOTA Second word: Juliet Alfa November Kilo Oscar, repeat: Juliet Alfa November Kilo Oscar. Copy?",
+                tx4_6: "JOTA JOTAx All received, you can proceed to next station.",
+                tx5_1: "CQ CQ this is JOTA: JOTA1 to JOTAn, report your readiness to respond to tasks!",
+                tx5_2: "JOTA JOTAx: Ready / We need more time",
+                tx6_1: "JOTAx JOTA Spell decrypted 1st word",
+                tx6_2: "JOTA JOTAx Word is: Charlie Alfa Romeo November India",
+                tx6_3: "JOTAx JOTA Thank you, Seven Three.",
+
+                endingTitle: "Game Ending",
+                endingText1: "After all decoded words have been submitted by the stations, all teams gather at the Control Station, which evaluates the protocols of individual stations and they go through the problematic moments together that the stations may have had difficulties with.",
+                endingText2: "Finally, the Control Station announces to all stations the jointly decrypted message that helped save the world and distributes possible rewards to the teams.",
+                examplesTitle: "Message Examples",
+                protocolStationTitle: "Station Protocol",
+                protocolStationText: "The station protocol is A4 format. In the lower right part there is a fixed circle with small letters of the English alphabet in the outer fields. Part of the protocol is also an external rotating encryption wheel, which is inserted into the inner field of the fixed circle and set according to the shared key. The letters in this rotatable circle are capital. Both circles represent Alberti cipher encryption.",
+                protocolControlTitle: "Control Station Protocol",
+                protocolControlText: "The control station protocol is a table with a pair of words for each station and in the control row is the decrypted 1st word based on the Alberti cipher key. This protocol is used by the control station to prepare the game and check results.",
+
+                // Station Protocol
+                stationProtocolGenTitle: "Station Protocol Generator",
+                stationProtocolNote: "Station name and encryption key will be written manually on the printed protocol during the game.",
+                copiesLabel: "Number of protocol copies",
+                printButton: "🖨️ Print protocol",
+
+                // Inner Circles
+                innerCirclesGenTitle: "Inner Wheels Generator",
+                innerCirclesNote: "Inner wheels are printed, cut out and inserted into the station protocol for decryption.",
+                wheelSizeLabel: "Wheel size (px)",
+                innerCirclesLabel: "Number of inner wheels",
+                printCirclesButton: "🖨️ Print wheels",
+                wheelsPerPage: "wheels per page",
+                pages: "pages",
+                page: "page",
+                pages2: "pages",
+
+                // Control Protocol
+                controlProtocolGenTitle: "Control Station Protocol Generator",
+                numStationsLabel: "Number of stations",
+                encryptionKeyLabel: "Encryption key (2 letters)",
+                encryptionKeyPlaceholder: "For example: xA",
+                encryptionKeyHelp: "First letter from outer wheel (lowercase), second from inner (uppercase).",
+                resultPhraseLabel: "Result phrase (words separated by space)",
+                resultPhrasePlaceholder: "For example: BLACK STORK WATER HEADS",
+                resultPhraseHelp: "These are the words that stations will decrypt. Exactly 5 chars per word.",
+                controlWordsLabel: "Control words for 2nd row (optional)",
+                controlWordsPlaceholder: "For example: BRAVO DELTA HOTEL (leave empty for random generation)",
+                controlWordsHelp: "Words will be randomly generated if you don't enter anything. Exactly 5 chars per word.",
+                generateButton: "✨ Generate protocol",
+
+                // Protocol labels
+                station: "STATION",
+                key: "KEY",
+                word1: "1st WORD",
+                word2: "2nd WORD",
+                decodeInstruction: "DECODE 1ST ROW ACCORDING TO KEY",
+                callCentralInstruction: "CALL CENTRAL STATION JOTA AND SUBMIT DECODED WORD.",
+                spellInstruction: "SPELL THE WORD USING THE PHONETIC ALPHABET",
+                keyCodeWords: "KEY - Code Words",
+                control: "CONTROL",
+
+                // Alerts
+                alertInvalidKey: "Enter a valid 2-character key!",
+                alertNoPhrase: "Enter a result phrase!",
+                alertWordTooLong: "Word '{word}' has {length} characters. Word must have exactly 5 characters."
+            },
+            pt_BR: {
+                title: "Jogo do Agente",
+                subtitle: "Gerador de Protocolos para Equipes Escoteiras",
+                tabInstructions: "Instruções",
+                tabStation: "Protocolo da Estação",
+                tabControl: "Protocolo da Estação de Controle",
+                subtabProtocol: "Protocolo da Estação",
+                subtabCircles: "Rodas Internas",
+
+                // Instructions
+                gameTitle: "Jogo do Agente",
+                gameIntro: "O Jogo do Agente é um jogo para equipes de 1-2 membros de crianças (escoteiros), essas equipes são chamadas de ESTAÇÕES, ou \"agentes\" (indicativos: JOTA1, JOTA2...). As ESTAÇÕES recebem comandos da ESTAÇÃO DE CONTROLE (indicativo JOTA), e com base em seus comandos comunicam suas descobertas de volta. No final do jogo, cada ESTAÇÃO submete um PROTOCOLO com os resultados de suas descobertas à ESTAÇÃO DE CONTROLE. A ESTAÇÃO DE CONTROLE avalia os protocolos de todas as estações e anuncia o resultado do jogo. As estações \"agentes\" individuais devem compor juntas uma \"mensagem codificada\" que salvará o mundo e aprenderão seu conteúdo no final do jogo.",
+                goalTitle: "Objetivo do Jogo",
+                goalText1: "O objetivo de todo o jogo é praticar o alfabeto fonético eslovaco (ou internacional) usado no mundo do rádio amador entre crianças/escoteiros e ensiná-los a comunicação de acordo com o esquema geral para conexões fonéticas de rádio amador.",
+                goalText2: "As estações \"agentes\" individuais devem compor juntas uma \"mensagem codificada\" que salvará o mundo e aprenderão seu conteúdo no final do jogo.",
+                gameflowTitle: "Fluxo do Jogo",
+                step1: "1. Preparação",
+                step1Text: "No início do jogo, os escoteiros formam equipes de 1-2 membros. Cada equipe recebe um rádio PMR446. Todos os rádios estão configurados no mesmo canal. A ESTAÇÃO DE CONTROLE (indicativo JOTA) dá a cada equipe um papelão duro com uma caneta e PROTOCOLO DA ESTAÇÃO e anuncia para todas as equipes a chave de criptografia - duas letras, que elas usarão para descriptografar palavras de acordo com as instruções no protocolo.",
+                step2: "2. Implantação",
+                step2Text: "As equipes individuais se espalham pela área (por exemplo, em um prado), para que não possam ouvir umas às outras.",
+                step3: "3. Verificação de Conexão",
+                step3Text: "A estação de controle realiza uma verificação de conexão com estações individuais (x é o número de sequência da estação) de acordo com o seguinte esquema:",
+                step4: "4. Transmissão de Palavras",
+                step4Text: "A estação de controle estabelece sucessivamente conexões com estações individuais e transmite palavras para elas, esperando um momento entre palavras individuais:",
+                step4Text2: "A estação JOTAx monta a palavra 1 e a palavra 2 das letras soletradas com base no alfabeto fonético e a escreve no protocolo. Então começa a processar as palavras de acordo com as instruções no protocolo - descriptografa a palavra 2 de acordo com a chave. A estação de controle continua com a conexão com a próxima estação JOTAx.",
+                step5: "5. Verificação de Prontidão",
+                step5Text: "A estação de controle dá a todas as estações tempo para processar a tarefa (cerca de 10 minutos da comunicação com a última estação) e então faz uma chamada geral, à qual as estações JOTAx responderão com status de prontidão:",
+                step5Text2: "As estações individuais respondem:",
+                step5Text3: "Se algumas estações ainda não estiverem prontas, a estação de controle dá-lhes tempo e depois repete a chamada novamente. Quando todas as estações JOTAx estiverem prontas, começa a fase de envio de soluções.",
+                step6: "6. Envio de Solução",
+                step6Text: "A estação de controle chama sucessivamente todas as estações e solicita a soletração da 1ª palavra descriptografada. Ela verifica o resultado de acordo com o protocolo da estação de controle, na linha de CONTROLE e marca a estação circulando se descriptografou corretamente a palavra 2.",
+
+                // Radio transmissions
+                tx3_1: "JOTAx JOTA",
+                tx3_2: "JOTA aqui JOTAx Na escuta",
+                tx3_3: "JOTAx JOTA Obrigado",
+                tx4_1: "JOTAx JOTA",
+                tx4_2: "JOTA JOTAx Escutando",
+                tx4_3: "JOTAx JOTA Primeira palavra: Tango Xray Bravo Papa Alfa, repito: Tango Xray Bravo Papa Alfa. Recebeu?",
+                tx4_4: "JOTA JOTAx Sim, tudo copiado, pode prosseguir com segunda palavra",
+                tx4_5: "JOTAx JOTA Segunda palavra: Juliet Alfa November Kilo Oscar, repito: Juliet Alfa November Kilo Oscar. Recebeu?",
+                tx4_6: "JOTA JOTAx Tudo recebido, pode prosseguir para próxima estação.",
+                tx5_1: "CQ CQ, aqui JOTA: JOTA1 até JOTAn, reportem sua prontidão para responder às tarefas!",
+                tx5_2: "JOTA JOTAx: Pronto / Precisamos mais tempo",
+                tx6_1: "JOTAx JOTA Soletre palavra descriptografada 1",
+                tx6_2: "JOTA JOTAx Palavra é: Charlie Alfa Romeo November India",
+                tx6_3: "JOTAx JOTA Obrigado, Sete Três.",
+
+                endingTitle: "Final do Jogo",
+                endingText1: "Depois que todas as palavras decodificadas foram enviadas pelas estações, todas as equipes se reúnem na Estação de Controle, que avalia os protocolos das estações individuais e elas passam pelos momentos problemáticos juntas que as estações podem ter tido dificuldades.",
+                endingText2: "Finalmente, a Estação de Controle anuncia a todas as estações a mensagem conjuntamente descriptografada que ajudou a salvar o mundo e distribui possíveis recompensas às equipes.",
+                examplesTitle: "Exemplos de Mensagens",
+                protocolStationTitle: "Protocolo da Estação",
+                protocolStationText: "O protocolo da estação é formato A4. Na parte inferior direita há um círculo fixo com letras minúsculas do alfabeto inglês nos campos externos. Parte do protocolo é também uma roda de criptografia rotativa externa, que é inserida no campo interno do círculo fixo e configurada de acordo com a chave compartilhada. As letras neste círculo giratório são maiúsculas. Ambos os círculos representam criptografia de cifra de Alberti.",
+                protocolControlTitle: "Protocolo da Estação de Controle",
+                protocolControlText: "O protocolo da estação de controle é uma tabela com um par de palavras para cada estação e na linha de controle está a 1ª palavra descriptografada com base na chave de cifra de Alberti. Este protocolo é usado pela estação de controle para preparar o jogo e verificar resultados.",
+
+                // Station Protocol
+                stationProtocolGenTitle: "Gerador de Protocolo da Estação",
+                stationProtocolNote: "O nome da estação e a chave de criptografia serão escritos manualmente no protocolo impresso durante o jogo.",
+                copiesLabel: "Número de cópias do protocolo",
+                printButton: "🖨️ Imprimir protocolo",
+
+                // Inner Circles
+                innerCirclesGenTitle: "Gerador de Rodas Internas",
+                innerCirclesNote: "As rodas internas são impressas, recortadas e inseridas no protocolo da estação para descriptografia.",
+                wheelSizeLabel: "Tamanho da roda (px)",
+                innerCirclesLabel: "Número de rodas internas",
+                printCirclesButton: "🖨️ Imprimir rodas",
+                wheelsPerPage: "rodas por página",
+                pages: "páginas",
+                page: "página",
+                pages2: "páginas",
+
+                // Control Protocol
+                controlProtocolGenTitle: "Gerador de Protocolo da Estação de Controle",
+                numStationsLabel: "Número de estações",
+                encryptionKeyLabel: "Chave de criptografia (2 letras)",
+                encryptionKeyPlaceholder: "Por exemplo: xA",
+                encryptionKeyHelp: "Primeira letra da roda externa (minúscula), segunda da interna (maiúscula).",
+                resultPhraseLabel: "Frase resultado (palavras separadas por espaço)",
+                resultPhrasePlaceholder: "Por exemplo: CISNE PRETO MOLHA",
+                resultPhraseHelp: "Estas são as palavras que as estações vão descriptografar. Exatamente 5 caracteres por palavra.",
+                controlWordsLabel: "Palavras de controle para 2ª linha (opcional)",
+                controlWordsPlaceholder: "Por exemplo: BRAVO DELTA HOTEL (deixe vazio para geração aleatória)",
+                controlWordsHelp: "As palavras serão geradas aleatoriamente se você não inserir nada. Exatamente 5 caracteres por palavra.",
+                generateButton: "✨ Gerar protocolo",
+
+                // Protocol labels
+                station: "ESTAÇÃO",
+                key: "CHAVE",
+                word1: "1ª PALAVRA",
+                word2: "2ª PALAVRA",
+                decodeInstruction: "DECODIFIQUE A 1ª LINHA DE ACORDO COM A CHAVE",
+                callCentralInstruction: "CHAME A ESTAÇÃO CENTRAL JOTA E ENVIE A PALAVRA DECODIFICADA.",
+                spellInstruction: "SOLETRE A PALAVRA USANDO O ALFABETO FONÉTICO",
+                keyCodeWords: "CHAVE - Palavras Código",
+                control: "CONTROLE",
+
+                // Alerts
+                alertInvalidKey: "Digite uma chave válida de 2 caracteres!",
+                alertNoPhrase: "Digite uma frase resultado!",
+                alertWordTooLong: "Palavra '{word}' tem {length} caracteres. Palavra deve ter exatamente 5 caracteres."
+            }
+        };
+
+        // Language switching
+        function switchLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('agentGameLang', lang);
+
+            // Update language buttons
+            document.querySelectorAll('.language-selector button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`lang-${lang === 'pt_BR' ? 'pt' : lang}`).classList.add('active');
+
+            // Update document language
+            document.documentElement.lang = lang === 'pt_BR' ? 'pt-BR' : lang;
+
+            // Update all texts
+            updateTexts();
+
+            // Regenerate protocols with new language
+            generateStationProtocols();
+            if (document.getElementById('control-protocol-output').innerHTML) {
+                generateControlProtocol();
+            }
+            if (document.getElementById('subtab-circles').classList.contains('active')) {
+                generateInnerWheels();
+            }
+        }
+
+        function updateTexts() {
+            const t = translations[currentLang];
+
+            // Update document title
+            document.title = t.title + ' - ' + t.subtitle;
+
+            // Update all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) {
+                    el.textContent = t[key];
+                }
+            });
+
+            // Update placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (t[key]) {
+                    el.placeholder = t[key];
+                }
+            });
+        }
 
         // Tab switching
         function switchTab(tabName, buttonElement) {
@@ -782,7 +1229,8 @@
 
         // Generate random word
         function generateRandomWord() {
-            return SLOVAK_NAMES[Math.floor(Math.random() * SLOVAK_NAMES.length)];
+            const words = RANDOM_WORDS[currentLang] || RANDOM_WORDS.sk;
+            return words[Math.floor(Math.random() * words.length)];
         }
 
         // Create outer cipher wheel SVG
@@ -831,8 +1279,9 @@
 
         // Generate phonetic alphabet HTML
         function generatePhoneticAlphabetHTML() {
+            const alphabet = PHONETIC_ALPHABETS[currentLang] || PHONETIC_ALPHABETS.sk;
             let html = '<div class="phonetic-grid">';
-            PHONETIC_ALPHABET.forEach(([letter, word]) => {
+            alphabet.forEach(([letter, word]) => {
                 html += `<div class="phonetic-item"><strong>${letter}</strong><span>${word}</span></div>`;
             });
             html += '</div>';
@@ -843,6 +1292,7 @@
         function generateStationProtocols() {
             const copies = parseInt(document.getElementById('protocolCopies').value) || 1;
             const container = document.getElementById('station-protocols');
+            const t = translations[currentLang];
 
             let html = '';
             for (let i = 0; i < copies; i++) {
@@ -851,44 +1301,44 @@
                     <div class="card ${pageBreak}">
                         <div class="protocol-header">
                             <div class="protocol-header-box">
-                                <label>STANICA</label>
+                                <label>${t.station}</label>
                                 <div class="protocol-header-line"></div>
                             </div>
                             <div class="protocol-header-box">
-                                <label>KĽÚČ</label>
+                                <label>${t.key}</label>
                                 <div class="protocol-header-line"></div>
                             </div>
                         </div>
 
                         <div class="protocol-box">
-                            <div style="background: white; border: 2px solid black; display: inline-block; padding: 0.25rem 0.5rem; font-weight: bold; font-size: 0.85rem; margin-bottom: 0.5rem;">1. SLOVO</div>
+                            <div style="background: white; border: 2px solid black; display: inline-block; padding: 0.25rem 0.5rem; font-weight: bold; font-size: 0.85rem; margin-bottom: 0.5rem;">${t.word1}</div>
                             <div class="protocol-fields">
                                 ${Array(5).fill('<div class="protocol-field"></div>').join('')}
                             </div>
                         </div>
 
                         <div class="protocol-box">
-                            <div style="background: white; border: 2px solid black; display: inline-block; padding: 0.25rem 0.5rem; font-weight: bold; font-size: 0.85rem; margin-bottom: 0.5rem;">2. SLOVO</div>
+                            <div style="background: white; border: 2px solid black; display: inline-block; padding: 0.25rem 0.5rem; font-weight: bold; font-size: 0.85rem; margin-bottom: 0.5rem;">${t.word2}</div>
                             <div class="protocol-fields">
                                 ${Array(5).fill('<div class="protocol-field"></div>').join('')}
                             </div>
                         </div>
 
                         <div class="protocol-box">
-                            <div style="background: white; border: 2px solid black; display: inline-block; padding: 0.25rem 0.5rem; font-weight: bold; font-size: 0.85rem; margin-bottom: 0.5rem;">DEKÓDUJ 1. RIADOK PODĽA KĽÚČA</div>
+                            <div style="background: white; border: 2px solid black; display: inline-block; padding: 0.25rem 0.5rem; font-weight: bold; font-size: 0.85rem; margin-bottom: 0.5rem;">${t.decodeInstruction}</div>
                             <div class="protocol-fields">
                                 ${Array(5).fill('<div class="protocol-field"></div>').join('')}
                             </div>
                         </div>
 
                         <div class="info-box">
-                            <p style="font-weight: bold; margin-bottom: 0.5rem;">ZAVOLAJ CENTRÁLNU STANICU JOTA A ODOVZDAJ DEKÓDOVANÉ SLOVO.</p>
-                            <p>SLOVO VYHLÁSKUJ POUŽITÍM HLÁSKOVACEJ ABECEDY</p>
+                            <p style="font-weight: bold; margin-bottom: 0.5rem;">${t.callCentralInstruction}</p>
+                            <p>${t.spellInstruction}</p>
                         </div>
 
                         <div class="grid-2">
                             <div style="border: 1px solid black; padding: 1rem; border-radius: 4px;">
-                                <div style="font-weight: bold; text-align: center; margin-bottom: 1rem;">KĽÚČ - Kódové slová</div>
+                                <div style="font-weight: bold; text-align: center; margin-bottom: 1rem;">${t.keyCodeWords}</div>
                                 ${generatePhoneticAlphabetHTML()}
                             </div>
                             <div class="cipher-wheel-container">
@@ -908,21 +1358,30 @@
             const key = document.getElementById('controlKey').value;
             const resultPhrase = document.getElementById('resultPhrase').value.trim().toUpperCase();
             const controlWords = document.getElementById('controlWords').value.trim().toUpperCase();
+            const t = translations[currentLang];
 
             if (!key || key.length !== 2) {
-                alert('Zadajte platný 2-znakový kľúč!');
+                alert(t.alertInvalidKey);
                 return;
             }
 
             if (!resultPhrase) {
-                alert('Zadajte výslednú frázu!');
+                alert(t.alertNoPhrase);
                 return;
+            }
+
+            const resultWords = resultPhrase.split(/\s+/).filter(w => w.length > 0);
+
+            // Validate that all words are exactly 5 characters
+            for (const word of resultWords) {
+                if (word.length !== 5) {
+                    alert(t.alertWordTooLong.replace('{word}', word).replace('{length}', word.length));
+                    return;
+                }
             }
 
             const outerKey = key[0];
             const innerKey = key[1];
-
-            const resultWords = resultPhrase.split(/\s+/).filter(w => w.length > 0);
             const actualNumStations = Math.min(numStations, resultWords.length);
 
             const row1Words = resultWords.slice(0, actualNumStations).map(word =>
@@ -932,6 +1391,15 @@
             let row2Words;
             if (controlWords) {
                 row2Words = controlWords.split(/\s+/).filter(w => w.length > 0);
+
+                // Validate that all control words are exactly 5 characters
+                for (const word of row2Words) {
+                    if (word.length !== 5) {
+                        alert(t.alertWordTooLong.replace('{word}', word).replace('{length}', word.length));
+                        return;
+                    }
+                }
+
                 while (row2Words.length < actualNumStations) {
                     row2Words.push(generateRandomWord());
                 }
@@ -954,21 +1422,21 @@
                     <table class="protocol-table">
                         <thead>
                             <tr>
-                                <th>STANICA</th>
+                                <th>${t.station}</th>
                                 ${stations.map(s => `<th>${s}</th>`).join('')}
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td style="font-weight: bold; background: white;">1. SLOVO</td>
+                                <td style="font-weight: bold; background: white;">${t.word1}</td>
                                 ${row1Words.map(w => `<td class="encrypted">${w}</td>`).join('')}
                             </tr>
                             <tr>
-                                <td style="font-weight: bold; background: white;">2. SLOVO</td>
+                                <td style="font-weight: bold; background: white;">${t.word2}</td>
                                 ${row2Words.map(w => `<td style="font-family: monospace;">${w}</td>`).join('')}
                             </tr>
                             <tr>
-                                <td style="font-weight: bold; background: white;">KONTROLA</td>
+                                <td style="font-weight: bold; background: white;">${t.control}</td>
                                 ${controlRow.map(w => `<td class="control">${w}</td>`).join('')}
                             </tr>
                         </tbody>
@@ -976,11 +1444,11 @@
 
                     <div class="grid-2">
                         <div style="border: 2px solid black; padding: 1rem; border-radius: 4px;">
-                            <div style="font-weight: bold; text-align: center; margin-bottom: 1rem;">KĽÚČ - Kódové slová</div>
+                            <div style="font-weight: bold; text-align: center; margin-bottom: 1rem;">${t.keyCodeWords}</div>
                             ${generatePhoneticAlphabetHTML()}
                         </div>
                         <div style="border: 2px solid black; padding: 2rem; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                            <div style="font-weight: bold; margin-bottom: 1rem;">KĽÚČ</div>
+                            <div style="font-weight: bold; margin-bottom: 1rem;">${t.key}</div>
                             <div style="font-size: 4rem; font-weight: bold;">${key}</div>
                         </div>
                     </div>
@@ -1091,10 +1559,12 @@
             const circleCount = parseInt(document.getElementById('circleCount').value) || 6;
             const circlesPerPage = calculateCirclesPerPage(wheelSize);
             const totalPages = Math.ceil(circleCount / circlesPerPage);
+            const t = translations[currentLang];
 
             // Update info texts
-            document.getElementById('wheelsPerPage').textContent = `${circlesPerPage} kotúčov na stranu`;
-            document.getElementById('totalPages').textContent = `${totalPages} ${totalPages === 1 ? 'strana' : totalPages < 5 ? 'strany' : 'strán'}`;
+            document.getElementById('wheelsPerPage').textContent = `${circlesPerPage} ${t.wheelsPerPage}`;
+            let pagesText = totalPages === 1 ? t.page : (totalPages < 5 && currentLang === 'sk' ? t.pages2 : t.pages);
+            document.getElementById('totalPages').textContent = `${totalPages} ${pagesText}`;
 
             const container = document.getElementById('inner-wheels');
             const cols = Math.max(1, Math.floor(750 / wheelSize));
@@ -1158,8 +1628,17 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
+            // Initialize language
+            updateTexts();
             generateStationProtocols();
             generateInnerWheels();
+
+            // Update language selector buttons
+            document.querySelectorAll('.language-selector button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`lang-${currentLang === 'pt_BR' ? 'pt' : currentLang}`).classList.add('active');
+            document.documentElement.lang = currentLang === 'pt_BR' ? 'pt-BR' : currentLang;
 
             // Auto-uppercase inputs
             document.getElementById('resultPhrase').addEventListener('input', (e) => {
