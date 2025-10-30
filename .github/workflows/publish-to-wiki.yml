@@ -19,58 +19,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Prepare Wiki content
-        run: |
-          mkdir -p wiki-content
-          cp aktivity/hra-na-agenta/index.html wiki-content/Hra-na-agenta.html
-
-          # Create markdown wrapper page
-          cat > wiki-content/Hra-na-agenta.md << 'EOF'
-          # Hra na agenta - Generátor protokolov
-
-          Pre použitie aplikácie otvorte HTML verziu:
-
-          [**→ Otvoriť aplikáciu (HTML)**](Hra-na-agenta.html)
-
-          ## O aplikácii
-
-          Aplikácia "Hra na agenta" je generátor protokolov pre skautské družstvá. Zahŕňa:
-
-          - **Inštrukcie** - Pravidlá hry a príklady
-          - **Protokol stanice** - Generovanie protokolov s šifrovacími kolieskami
-          - **Vnútorné kotúče** - Generovanie koliesok na vystrihnutie
-          - **Protokol riadiacej stanice** - Hlavný kontrolný protokol s Albertiho šifrou
-
-          ## Použitie
-
-          1. Kliknite na odkaz vyššie pre otvorenie aplikácie
-          2. Vyberte si záložku podľa toho, čo potrebujete vygenerovať
-          3. Nastavte parametre (počet staníc, kľúč, frázu)
-          4. Kliknite na tlačidlo "Tlačiť" pre vytlačenie protokolov
-
-          ## Technické informácie
-
-          - Čistý HTML/CSS/JavaScript (žiadne závislosti)
-          - Funguje offline po načítaní
-          - Optimalizované pre tlač A4
-          - Podporuje Albertiho šifru s vlastnými kľúčmi
-
-          ---
-
-          _Automaticky publikované z [hlavného repozitára](../)_
-          EOF
-
       - name: Upload to Wiki
-        uses: SwiftDocOrg/github-wiki-publish-action@v1
+        uses: andrew-chen-wang/github-wiki-action@v4
         with:
-          path: wiki-content
+          path: aktivity/hra-na-agenta/index.html
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Summary
         run: |
           echo "### 🎉 Wiki Publication Complete!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "The application has been published to:" >> $GITHUB_STEP_SUMMARY
-          echo "📖 https://github.com/${{ github.repository }}/wiki/Hra-na-agenta" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Direct HTML link:**" >> $GITHUB_STEP_SUMMARY
-          echo "🔗 https://github.com/${{ github.repository }}/wiki/Hra-na-agenta.html" >> $GITHUB_STEP_SUMMARY
+          echo "📖 https://github.com/${{ github.repository }}/wiki" >> $GITHUB_STEP_SUMMARY
