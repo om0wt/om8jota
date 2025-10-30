@@ -30,7 +30,7 @@ jobs:
       - name: Copy HTML to Wiki
         run: |
           # Create or update the Hra-na-agenta.md page
-          cp v2/index.html wiki/Hra-na-agenta.html
+          cp aktivity/hra-na-agenta/index.html wiki/Hra-na-agenta.html
 
           # Create a markdown wrapper page if it doesn't exist
           if [ ! -f wiki/Hra-na-agenta.md ]; then
